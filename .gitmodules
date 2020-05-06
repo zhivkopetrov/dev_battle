@@ -1,0 +1,15 @@
+[submodule "cmake_helpers"]
+	path = cmake_helpers
+	url = https://github.com/zhivkopetrov/cmake_helpers.git
+[submodule "utils"]
+	path = utils
+	url = https://github.com/zhivkopetrov/utils.git
+[submodule "tools"]
+	path = tools
+	url = https://github.com/zhivkopetrov/tools.git
+[submodule "sdl_utils"]
+	path = sdl_utils
+	url = https://github.com/zhivkopetrov/sdl_utils.git
+[submodule "manager_utils"]
+	path = manager_utils
+	url = https://github.com/zhivkopetrov/manager_utils.git
