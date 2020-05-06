@@ -13,3 +13,6 @@
 [submodule "manager_utils"]
 	path = manager_utils
 	url = https://github.com/zhivkopetrov/manager_utils.git
+[submodule "resource_utils"]
+	path = resource_utils
+	url = https://github.com/zhivkopetrov/resource_utils.git
