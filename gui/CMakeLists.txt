@@ -9,7 +9,19 @@ set(_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
    
 add_executable(
     ${PROJECT_NAME} 
+        "${_INCLUDE_DIR}/engine/Engine.h"
+        "${_INCLUDE_DIR}/engine/EngineConfig.hpp"
+        "${_INCLUDE_DIR}/managers/ManagerHandler.h"
+        "${_INCLUDE_DIR}/managers/DrawMgr.h"
+        "${_INCLUDE_DIR}/managers/RsrcMgr.h"
+        "${_INCLUDE_DIR}/managers/TimerMgr.h"
+    
         "${_SRC_DIR}/main.cpp"
+        "${_SRC_DIR}/engine/Engine.cpp"
+        "${_SRC_DIR}/managers/ManagerHandler.cpp"
+        "${_SRC_DIR}/managers/DrawMgr.cpp"
+        "${_SRC_DIR}/managers/RsrcMgr.cpp"
+        "${_SRC_DIR}/managers/TimerMgr.cpp"
 )
 
 set_target_cpp_standard(${PROJECT_NAME} 17)
@@ -23,6 +35,12 @@ target_link_libraries(
         resource_utils
         sdl_utils
         manager_utils
+)
+
+target_include_directories(
+    ${PROJECT_NAME} 
+    PRIVATE
+        include
 )
 
 #invoke include-what-you-use (if it's enabled) for the current project
