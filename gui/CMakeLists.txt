@@ -10,7 +10,8 @@ set(_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 add_executable(
     ${PROJECT_NAME} 
         "${_INCLUDE_DIR}/engine/Engine.h"
-        "${_INCLUDE_DIR}/engine/EngineConfig.hpp"
+        "${_INCLUDE_DIR}/engine/config/EngineConfig.hpp"
+        "${_INCLUDE_DIR}/managers/config/ManagerHandlerConfig.hpp"
         "${_INCLUDE_DIR}/managers/ManagerHandler.h"
         "${_INCLUDE_DIR}/managers/DrawMgr.h"
         "${_INCLUDE_DIR}/managers/RsrcMgr.h"

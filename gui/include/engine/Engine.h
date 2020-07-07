@@ -9,11 +9,11 @@
 //Other libraries headers
 
 //Own components headers
-#include "engine/EngineConfig.hpp"
 #include "managers/ManagerHandler.h"
 #include "sdl_utils/input/InputEvent.h"
 
 //Forward declarations
+struct EngineConfig;
 
 class Engine {
 public:

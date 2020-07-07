@@ -9,23 +9,22 @@
 //Other libraries headers
 
 //Own components headers
+#include "managers/config/ManagerHandlerConfig.hpp"
 #include "managers/DrawMgr.h"
 #include "managers/RsrcMgr.h"
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
 
-int32_t ManagerHandler::init(const ManagerHandlerCfg &cfg) {
+int32_t ManagerHandler::init(const ManagerHandlerConfig &cfg) {
   //gDrawMgr should be initialized first, because it contains the renderer
   //Other managers may want to load graphical resources
-  gDrawMgr = new DrawMgr(cfg.renderer, cfg.window, cfg.displayMode,
-      cfg.monitorWidth, cfg.monitorHeight);
+  gDrawMgr = new DrawMgr(cfg.drawMgrBaseCfg);
   if (!gDrawMgr) {
     LOGERR("Error! Bad alloc for DrawMgr class -> Terminating...");
     return EXIT_FAILURE;
   }
 
-  gRsrcMgr = new RsrcMgr(cfg.renderer, cfg.projectName,
-      cfg.isMultithreadResAllowed);
+  gRsrcMgr = new RsrcMgr(cfg.sdlContainersCfg);
   if (!gRsrcMgr) {
     LOGERR("Error! Bad alloc for RsrcMgr class -> Terminating...");
     return EXIT_FAILURE;

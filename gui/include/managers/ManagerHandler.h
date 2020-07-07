@@ -13,8 +13,7 @@
 
 //Forward declarations
 class MgrBase;
-class Renderer;
-class MonitorWindow;
+struct ManagerHandlerConfig;
 
 namespace Managers {
 enum Indexes {
@@ -24,32 +23,11 @@ enum Indexes {
 };
 }
 
-struct ManagerHandlerCfg {
-  explicit ManagerHandlerCfg(Renderer *inputRenderer,
-                             MonitorWindow *inputWindow,
-                             const int32_t inputDisplayMode,
-                             const int32_t inputMonitorWidth,
-                             const int32_t inputMonitorHeight,
-                             const std::string &inputProjectName,
-                             const bool inputIsMultithreadResAllowed)
-      : renderer(inputRenderer), window(inputWindow),
-        displayMode(inputDisplayMode), monitorWidth(inputMonitorWidth),
-        monitorHeight(inputMonitorHeight), projectName(inputProjectName),
-        isMultithreadResAllowed(inputIsMultithreadResAllowed) {
-  }
 
-  Renderer *renderer;
-  MonitorWindow *window;
-  const int32_t displayMode;
-  const int32_t monitorWidth;
-  const int32_t monitorHeight;
-  const std::string projectName;
-  const bool isMultithreadResAllowed;
-};
 
 class ManagerHandler {
 public:
-  int32_t init(const ManagerHandlerCfg &cfg);
+  int32_t init(const ManagerHandlerConfig &cfg);
 
   /** @brief used to deinitialize all engine managers.
    * */

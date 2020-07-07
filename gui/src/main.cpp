@@ -11,13 +11,16 @@
 
 //Own components headers
 #include "engine/Engine.h"
-#include "engine/EngineConfig.hpp"
+#include "engine/config/EngineConfig.hpp"
 
 #include "utils/time/Time.h"
+#include "utils/file_system/FileSystemUtils.h"
 #include "utils/debug/SignalHandler.h"
 #include "utils/Log.h"
 
 namespace {
+#define FULL_SCREEN_MODE (1 | 16) // SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS
+#define WINDOWED_MODE 4 // SDL_WINDOW_SHOWN
 constexpr auto MONITOR_WIDTH = 1920;
 constexpr auto MONITOR_HEIGHT = 1080;
 constexpr auto MAX_FRAME_RATE = 60;
@@ -26,29 +29,48 @@ constexpr bool ALLOW_MULTITHREAD_RES_LOADING = true;
 }
 
 
-static void parseConfig(EngineConfig &cfg) {
-  cfg.monitorWidth = MONITOR_WIDTH;
-  cfg.monitorWidth = MONITOR_HEIGHT;
-  cfg.displayMode = FULL_SCREEN_MODE;
+static void populateConfig(EngineConfig &cfg,
+                           Renderer &renderer,
+                           MonitorWindow &monitorWindow) {
   cfg.maxFrameRate = MAX_FRAME_RATE;
-  cfg.projectName = PROJECT_NAME;
-  cfg.isMultithreadResAllowed = ALLOW_MULTITHREAD_RES_LOADING;
+
+  cfg.managerHandlerCfg.drawMgrBaseCfg.renderer = &renderer;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.window = &monitorWindow;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.displayMode = FULL_SCREEN_MODE;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.monitorWidth = MONITOR_WIDTH;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.monitorHeight = MONITOR_HEIGHT;
+
+  cfg.managerHandlerCfg.sdlContainersCfg.renderer = &renderer;
+  cfg.managerHandlerCfg.sdlContainersCfg.isMultithreadResAllowed =
+      ALLOW_MULTITHREAD_RES_LOADING;
+  cfg.managerHandlerCfg.sdlContainersCfg.projectBuildPath =
+      FileSystemUtils::getRootDirectory();
+
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorWidth =
+      MONITOR_WIDTH;
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorHeight =
+      MONITOR_HEIGHT;
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.backgroundImagePath =
+      "TODO";
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
+    progressBarOnImagePath = "TODO";
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
+    progressBarOffImagePath = "TODO";
 }
 
 static int32_t runApplication() {
   int32_t err = EXIT_SUCCESS;
 
-  EngineConfig engineCfg;
-  parseConfig(engineCfg);
-
-  MonitorWindow mainWindow(engineCfg.monitorWidth, engineCfg.monitorHeight);
+  MonitorWindow mainWindow(MONITOR_WIDTH, MONITOR_HEIGHT);
   Renderer renderer;
   Engine engine;
 
+  EngineConfig engineCfg;
+  populateConfig(engineCfg, renderer, mainWindow);
+
   if (EXIT_SUCCESS == err) {
-    engineCfg.renderer = &renderer;
-    engineCfg.window = &mainWindow;
-    if (EXIT_SUCCESS != mainWindow.init(engineCfg.displayMode)) {
+    if (EXIT_SUCCESS != mainWindow.init(
+        engineCfg.managerHandlerCfg.drawMgrBaseCfg.displayMode)) {
       LOGERR("Error, mainWindow.init() failed");
       return EXIT_FAILURE;
     }

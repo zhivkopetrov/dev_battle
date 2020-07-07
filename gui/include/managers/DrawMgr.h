@@ -15,20 +15,7 @@
 
 class DrawMgr: public DrawMgrBase {
 public:
-  /** @brief
-   *
-   *  @param Renderer *      - the actual renderer used for drawing
-   *  @param MonitorWindow * - the program window
-   *  @param const int32_t   - monitor display mode
-   *                                     (full screen, windowed, etc ...)
-   *  @param const int32_t   - the width of a single monitor (in px)
-   *  @param const int32_t   - the height of a single monitor (in px)
-   * */
-  explicit DrawMgr(Renderer* renderer,
-                   MonitorWindow* window,
-                   const int32_t displayMode,
-                   const int32_t monitorWidth,
-                   const int32_t monitorHeight);
+  explicit DrawMgr(const DrawMgrBaseConfig &cfg);
 
   virtual ~DrawMgr() = default;
 

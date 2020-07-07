@@ -10,10 +10,7 @@
 
 DrawMgr *gDrawMgr = nullptr;
 
-DrawMgr::DrawMgr(Renderer *renderer, MonitorWindow *window,
-                 const int32_t displayMode, const int32_t monitorWidth,
-                 const int32_t monitorHeight)
-    : DrawMgrBase(renderer, window, displayMode, monitorWidth, monitorHeight) {
+DrawMgr::DrawMgr(const DrawMgrBaseConfig &cfg) : DrawMgrBase(cfg) {
 }
 
 int32_t DrawMgr::init() {

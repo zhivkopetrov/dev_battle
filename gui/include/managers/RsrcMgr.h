@@ -20,9 +20,7 @@ class Renderer;
 
 class RsrcMgr: public RsrcMgrBase {
 public:
-  explicit RsrcMgr(Renderer *renderer,
-                   const std::string &projectName,
-                   const bool isMultithreadResAllowed);
+  explicit RsrcMgr(const SDLContainersConfig &cfg);
 
   virtual ~RsrcMgr() = default;
 

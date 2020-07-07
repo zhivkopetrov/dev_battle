@@ -13,9 +13,7 @@
 
 RsrcMgr *gRsrcMgr = nullptr;
 
-RsrcMgr::RsrcMgr(Renderer *renderer, const std::string &projectName,
-                 const bool isMultithreadResAllowed)
-    : RsrcMgrBase(renderer, projectName, isMultithreadResAllowed) {
+RsrcMgr::RsrcMgr(const SDLContainersConfig &cfg) : RsrcMgrBase(cfg) {
 }
 
 int32_t RsrcMgr::init() {

@@ -11,17 +11,14 @@
 //Other libraries headers
 
 //Own components headers
+#include "engine/config/EngineConfig.hpp"
 #include "managers/DrawMgr.h"
 #include "managers/RsrcMgr.h"
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
 
 int32_t Engine::init(const EngineConfig &engineCfg) {
-  const ManagerHandlerCfg cfg(engineCfg.renderer, engineCfg.window,
-      engineCfg.displayMode, engineCfg.monitorWidth, engineCfg.monitorHeight,
-      engineCfg.projectName, engineCfg.isMultithreadResAllowed);
-
-  if (EXIT_SUCCESS != _managerHandler.init(cfg)) {
+  if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
     LOGERR("Error in _managerHandler.init()");
     return EXIT_FAILURE;
   }
