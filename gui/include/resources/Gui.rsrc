@@ -1,0 +1,6 @@
+tag=[KNIGHT_RUN]
+type=sprite
+path=p/knight_run.png
+description=96,64,8,0
+position=10,1000
+load=on_demand

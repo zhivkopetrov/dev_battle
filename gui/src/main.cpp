@@ -15,6 +15,7 @@
 
 #include "utils/time/Time.h"
 #include "utils/file_system/FileSystemUtils.h"
+#include "resource_utils/common/ResourceFileHeader.h"
 #include "utils/debug/SignalHandler.h"
 #include "utils/Log.h"
 
@@ -24,7 +25,9 @@ namespace {
 constexpr auto MONITOR_WIDTH = 1920;
 constexpr auto MONITOR_HEIGHT = 1080;
 constexpr auto MAX_FRAME_RATE = 60;
-constexpr auto PROJECT_NAME = "dev_battle_gui";
+constexpr auto ROOT_PROJECT_NAME = "dev_battle";
+constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
+    "gui/include/resources/p/loading_screen/";
 constexpr bool ALLOW_MULTITHREAD_RES_LOADING = true;
 }
 
@@ -43,19 +46,24 @@ static void populateConfig(EngineConfig &cfg,
   cfg.managerHandlerCfg.sdlContainersCfg.renderer = &renderer;
   cfg.managerHandlerCfg.sdlContainersCfg.isMultithreadResAllowed =
       ALLOW_MULTITHREAD_RES_LOADING;
-  cfg.managerHandlerCfg.sdlContainersCfg.projectBuildPath =
-      FileSystemUtils::getRootDirectory();
+  cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation =
+      FileSystemUtils::getBuildDirectory();
+  cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation.append(
+      ROOT_PROJECT_NAME).append("/").append(
+          ResourceFileHeader::getResourcesBinFolderName()).append("/");
 
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorWidth =
       MONITOR_WIDTH;
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorHeight =
       MONITOR_HEIGHT;
+  const std::string loadingScreenFolderPath =
+     FileSystemUtils::getRootDirectory() + LOADING_SCREEN_RELATIVE_TO_ROOT_PATH;
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.backgroundImagePath =
-      "TODO";
+      loadingScreenFolderPath + "background.png";
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
-    progressBarOnImagePath = "TODO";
+    progressBarOnImagePath = loadingScreenFolderPath + "progressOn.png";
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
-    progressBarOffImagePath = "TODO";
+    progressBarOffImagePath = loadingScreenFolderPath + "progressOff.png";
 }
 
 static int32_t runApplication() {

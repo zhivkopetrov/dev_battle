@@ -13,6 +13,9 @@
 #include "managers/DrawMgr.h"
 #include "managers/RsrcMgr.h"
 #include "managers/TimerMgr.h"
+#include "manager_utils/managers_base/DrawMgrBase.h"
+#include "manager_utils/managers_base/RsrcMgrBase.h"
+#include "manager_utils/managers_base/TimerMgrBase.h"
 #include "utils/Log.h"
 
 int32_t ManagerHandler::init(const ManagerHandlerConfig &cfg) {
@@ -41,6 +44,11 @@ int32_t ManagerHandler::init(const ManagerHandlerConfig &cfg) {
   _managers[Managers::DRAW_MGR_IDX] = gDrawMgr;
   _managers[Managers::RSRC_MGR_IDX] = gRsrcMgr;
   _managers[Managers::TIMER_MGR_IDX] = gTimerMgr;
+
+  //set base global managers
+  gDrawMgrBase  = static_cast<DrawMgrBase *> (gDrawMgr);
+  gRsrcMgrBase  = static_cast<RsrcMgrBase *> (gRsrcMgr);
+  gTimerMgrBase = static_cast<TimerMgrBase *>(gTimerMgr);
 
   Time initTime;
   for (int32_t i = 0; i < Managers::TOTAL_MGRS_COUNT; ++i) {
@@ -87,14 +95,17 @@ void ManagerHandler::nullifyGlobalManager(const int32_t managerId) {
   switch (managerId) {
   case Managers::DRAW_MGR_IDX:
     gDrawMgr = nullptr;
+    gDrawMgrBase = nullptr;
     break;
 
   case Managers::RSRC_MGR_IDX:
     gRsrcMgr = nullptr;
+    gRsrcMgrBase = nullptr;
     break;
 
   case Managers::TIMER_MGR_IDX:
     gTimerMgr = nullptr;
+    gTimerMgrBase = nullptr;
     break;
 
   default:
