@@ -17,6 +17,8 @@
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
 
+#include "resources/GuiResources.h"
+
 int32_t Engine::init(const EngineConfig &engineCfg) {
   if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
     LOGERR("Error in _managerHandler.init()");
@@ -28,8 +30,18 @@ int32_t Engine::init(const EngineConfig &engineCfg) {
     return EXIT_FAILURE;
   }
 
-  gDrawMgr->setMaxFrameRate(engineCfg.maxFrameRate);
-  gTimerMgr->onInitEnd();
+  onInitEnd(engineCfg);
+
+  map.create(GuiResources::MAP);
+
+  AnimBaseConfig cfg;
+  cfg.rsrcId = GuiResources::KNIGHT_RUN;
+  cfg.timerId = 1000;
+  cfg.isTimerPauseble = false;
+  cfg.timerInterval = 50;
+  cfg.animDirection = AnimDir::FORWARD;
+  knightAnim.configure(cfg);
+  knightAnim.start();
 
   return EXIT_SUCCESS;
 }
@@ -60,7 +72,7 @@ void Engine::mainLoop() {
 #if !ENABLE_VSYNC
     fpsDelay = static_cast<uint32_t>(fpsTime.getElapsed().toMicroseconds());
 
-    const uint32_t MAX_MICROSECONDS_PER_FRAME = MICROSECOND
+    const uint32_t MAX_MICROSECONDS_PER_FRAME = MILLISECOND
         / gDrawMgr->getMaxFrameRate();
     MAX_MICROSECONDS_PER_FRAME < fpsDelay ?
         fpsDelay = 0 : fpsDelay = MAX_MICROSECONDS_PER_FRAME - fpsDelay;
@@ -94,6 +106,9 @@ bool Engine::processFrame() {
 
 void Engine::drawFrame() {
   gDrawMgr->clearScreen();
+
+  map.draw();
+  knightAnim.draw();
 
   gDrawMgr->finishFrame();
 }

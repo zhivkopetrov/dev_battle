@@ -3,4 +3,11 @@ type=sprite
 path=p/knight_run.png
 description=96,64,8,0
 position=10,1000
-load=on_demand
+load=on_init
+
+tag=[MAP]
+type=image
+path=p/map/testMap.png
+description=empty
+position=0,0
+load=on_init

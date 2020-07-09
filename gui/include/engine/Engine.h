@@ -11,6 +11,8 @@
 //Own components headers
 #include "managers/ManagerHandler.h"
 #include "sdl_utils/input/InputEvent.h"
+#include "manager_utils/drawing/Image.h"
+#include "manager_utils/drawing/animation/FrameAnimation.h"
 
 //Forward declarations
 struct EngineConfig;
@@ -39,6 +41,9 @@ private:
   ManagerHandler _managerHandler;
 
   InputEvent _inputEvent;
+
+  FrameAnimation knightAnim;
+  Image map;
 };
 
 #endif /* GUI_ENGINE_H_ */
