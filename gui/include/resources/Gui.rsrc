@@ -1,13 +1,28 @@
-tag=[KNIGHT_RUN]
-type=sprite
-path=p/knight_run.png
-description=96,64,8,0
-position=10,1000
-load=on_init
+##### IMAGES
 
-tag=[MAP]
-type=image
-path=p/map/testMap.png
-description=empty
+tag=[TILE_SURFACE]
+type=sprite
+path=p/field/tile_surface.png
+description=78,64,4,0
 position=0,0
 load=on_init
+
+tag=[TILE_WHOLE]
+type=sprite
+path=p/field/tile_whole.png
+description=78,80,4,0
+position=0,0
+load=on_init
+
+tag=[TILE_TARGET]
+type=sprite
+path=p/field/tile_target.png
+description=78,64,2,0
+position=0,0
+load=on_init
+
+##### FONTS
+tag=[VINQUE_RG]
+type=font
+path=f/vinque_rg.ttf
+description=20

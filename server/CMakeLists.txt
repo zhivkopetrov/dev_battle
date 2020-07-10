@@ -4,12 +4,12 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(dev_battle_server)
 
-set(_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
    
 add_executable(
     ${PROJECT_NAME} 
-        "${_SRC_DIR}/main.cpp"
+        ${_SRC_DIR}/main.cpp
 )
 
 set_target_cpp_standard(${PROJECT_NAME} 17)

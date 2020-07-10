@@ -17,8 +17,6 @@
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
 
-#include "resources/GuiResources.h"
-
 int32_t Engine::init(const EngineConfig &engineCfg) {
   if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
     LOGERR("Error in _managerHandler.init()");
@@ -30,18 +28,12 @@ int32_t Engine::init(const EngineConfig &engineCfg) {
     return EXIT_FAILURE;
   }
 
+  if (EXIT_SUCCESS != _game.init(engineCfg.gameCfg)) {
+    LOGERR("Error in _game.init()");
+    return EXIT_FAILURE;
+  }
+
   onInitEnd(engineCfg);
-
-  map.create(GuiResources::MAP);
-
-  AnimBaseConfig cfg;
-  cfg.rsrcId = GuiResources::KNIGHT_RUN;
-  cfg.timerId = 1000;
-  cfg.isTimerPauseble = false;
-  cfg.timerInterval = 50;
-  cfg.animDirection = AnimDir::FORWARD;
-  knightAnim.configure(cfg);
-  knightAnim.start();
 
   return EXIT_SUCCESS;
 }
@@ -107,14 +99,13 @@ bool Engine::processFrame() {
 void Engine::drawFrame() {
   gDrawMgr->clearScreen();
 
-  map.draw();
-  knightAnim.draw();
+  _game.draw();
 
   gDrawMgr->finishFrame();
 }
 
 void Engine::handleEvent() {
-
+  _game.handleEvent(_inputEvent);
 }
 
 void Engine::onInitEnd(const EngineConfig &engineCfg) {

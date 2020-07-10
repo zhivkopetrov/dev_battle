@@ -20,15 +20,19 @@
 #include "utils/Log.h"
 
 namespace {
-#define FULL_SCREEN_MODE (1 | 16) // SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS
-#define WINDOWED_MODE 4 // SDL_WINDOW_SHOWN
+//TODO parse the params from config
+constexpr auto windowDisplayMode = WindowDisplayMode::FULL_SCREEN;
+constexpr auto windowBorderMode = WindowBorderMode::BORDERLESS;
 constexpr auto MONITOR_WIDTH = 1920;
 constexpr auto MONITOR_HEIGHT = 1080;
 constexpr auto MAX_FRAME_RATE = 60;
 constexpr auto ROOT_PROJECT_NAME = "dev_battle";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
-constexpr bool ALLOW_MULTITHREAD_RES_LOADING = true;
+constexpr auto ALLOW_MULTITHREAD_RES_LOADING = true;
+constexpr auto GAME_MODE = GameMode::NORMAL;
+constexpr auto GAME_FIELD_TILE_ROWS = 20;
+constexpr auto GAME_FIELD_TILE_COLS = 15;
 }
 
 
@@ -39,7 +43,6 @@ static void populateConfig(EngineConfig &cfg,
 
   cfg.managerHandlerCfg.drawMgrBaseCfg.renderer = &renderer;
   cfg.managerHandlerCfg.drawMgrBaseCfg.window = &monitorWindow;
-  cfg.managerHandlerCfg.drawMgrBaseCfg.displayMode = FULL_SCREEN_MODE;
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorWidth = MONITOR_WIDTH;
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorHeight = MONITOR_HEIGHT;
 
@@ -64,11 +67,13 @@ static void populateConfig(EngineConfig &cfg,
     progressBarOnImagePath = loadingScreenFolderPath + "progressOn.png";
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
     progressBarOffImagePath = loadingScreenFolderPath + "progressOff.png";
+
+  cfg.gameCfg.gameMode = GAME_MODE;
+  cfg.gameCfg.fieldCfg.tileRows = GAME_FIELD_TILE_ROWS;
+  cfg.gameCfg.fieldCfg.tileCols = GAME_FIELD_TILE_COLS;
 }
 
 static int32_t runApplication() {
-  int32_t err = EXIT_SUCCESS;
-
   MonitorWindow mainWindow(MONITOR_WIDTH, MONITOR_HEIGHT);
   Renderer renderer;
   Engine engine;
@@ -76,52 +81,40 @@ static int32_t runApplication() {
   EngineConfig engineCfg;
   populateConfig(engineCfg, renderer, mainWindow);
 
-  if (EXIT_SUCCESS == err) {
-    if (EXIT_SUCCESS != mainWindow.init(
-        engineCfg.managerHandlerCfg.drawMgrBaseCfg.displayMode)) {
-      LOGERR("Error, mainWindow.init() failed");
-      return EXIT_FAILURE;
-    }
+  if (EXIT_SUCCESS != mainWindow.init(windowDisplayMode, windowBorderMode)) {
+    LOGERR("Error, mainWindow.init() failed");
+    return EXIT_FAILURE;
   }
 
-  if (EXIT_SUCCESS == err) {
-    if (EXIT_SUCCESS != renderer.init(mainWindow.getWindow())) {
-      LOGERR("Error, renderer.init() failed");
-      return EXIT_FAILURE;
-    }
+  if (EXIT_SUCCESS != renderer.init(mainWindow.getWindow())) {
+    LOGERR("Error, renderer.init() failed");
+    return EXIT_FAILURE;
   }
 
-  if (EXIT_SUCCESS == err) {
-    if (EXIT_SUCCESS != engine.init(engineCfg)) {
-      LOGERR("Error in engine.init() Terminating ...");
-      return EXIT_FAILURE;
-    }
+  if (EXIT_SUCCESS != engine.init(engineCfg)) {
+    LOGERR("Error in engine.init() Terminating ...");
+    return EXIT_FAILURE;
+  }
+  if (EXIT_SUCCESS != engine.recover()) {
+    LOGERR("Error in engine.recover() Terminating ...");
+    return EXIT_FAILURE;
   }
 
-  if (EXIT_SUCCESS == err) {
-    if (EXIT_SUCCESS != engine.recover()) {
-      LOGERR("Error in engine.recover() Terminating ...");
-      return EXIT_FAILURE;
-    }
+  std::thread engineThread = std::thread(&Engine::start, &engine);
+
+  //enter rendering loop
+  renderer.executeRenderCommands_RT();
+
+  //sanity check
+  if (engineThread.joinable()) {
+    engineThread.join();
   }
 
-  if (EXIT_SUCCESS == err) {
-    std::thread engineThread = std::thread(&Engine::start, &engine);
+  engine.deinit();
+  renderer.deinit();
+  mainWindow.deinit();
 
-    //enter rendering loop
-    renderer.executeRenderCommands_RT();
-
-    //sanity check
-    if (engineThread.joinable()) {
-      engineThread.join();
-    }
-
-    engine.deinit();
-    renderer.deinit();
-    mainWindow.deinit();
-  }
-
-  return err;
+  return EXIT_SUCCESS;
 }
 
 int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {

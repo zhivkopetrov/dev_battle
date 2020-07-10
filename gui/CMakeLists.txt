@@ -4,25 +4,33 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(dev_battle_gui)
 
-set(_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
    
 add_executable(
     ${PROJECT_NAME} 
-        "${_INCLUDE_DIR}/engine/Engine.h"
-        "${_INCLUDE_DIR}/engine/config/EngineConfig.hpp"
-        "${_INCLUDE_DIR}/managers/config/ManagerHandlerConfig.hpp"
-        "${_INCLUDE_DIR}/managers/ManagerHandler.h"
-        "${_INCLUDE_DIR}/managers/DrawMgr.h"
-        "${_INCLUDE_DIR}/managers/RsrcMgr.h"
-        "${_INCLUDE_DIR}/managers/TimerMgr.h"
+        ${_INCLUDE_DIR}/engine/Engine.h
+        ${_INCLUDE_DIR}/engine/config/EngineConfig.hpp
+        ${_INCLUDE_DIR}/game/Game.h
+        ${_INCLUDE_DIR}/game/config/GameConfig.hpp
+        ${_INCLUDE_DIR}/game/defines/GameDefines.h
+        ${_INCLUDE_DIR}/game/field/Field.h
+        ${_INCLUDE_DIR}/game/field/config/FieldConfig.hpp
+        ${_INCLUDE_DIR}/managers/config/ManagerHandlerConfig.hpp
+        ${_INCLUDE_DIR}/managers/ManagerHandler.h
+        ${_INCLUDE_DIR}/managers/DrawMgr.h
+        ${_INCLUDE_DIR}/managers/RsrcMgr.h
+        ${_INCLUDE_DIR}/managers/TimerMgr.h
     
-        "${_SRC_DIR}/main.cpp"
-        "${_SRC_DIR}/engine/Engine.cpp"
-        "${_SRC_DIR}/managers/ManagerHandler.cpp"
-        "${_SRC_DIR}/managers/DrawMgr.cpp"
-        "${_SRC_DIR}/managers/RsrcMgr.cpp"
-        "${_SRC_DIR}/managers/TimerMgr.cpp"
+        ${_SRC_DIR}/main.cpp
+        ${_SRC_DIR}/engine/Engine.cpp
+        ${_SRC_DIR}/game/Game.cpp
+        ${_SRC_DIR}/game/defines/GameDefines.cpp
+        ${_SRC_DIR}/game/field/Field.cpp
+        ${_SRC_DIR}/managers/ManagerHandler.cpp
+        ${_SRC_DIR}/managers/DrawMgr.cpp
+        ${_SRC_DIR}/managers/RsrcMgr.cpp
+        ${_SRC_DIR}/managers/TimerMgr.cpp
 )
 
 set_target_cpp_standard(${PROJECT_NAME} 17)

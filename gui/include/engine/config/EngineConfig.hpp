@@ -11,9 +11,11 @@
 
 //Forward declarations
 #include "managers/config/ManagerHandlerConfig.hpp"
+#include "game/config/GameConfig.hpp"
 
 struct EngineConfig {
   ManagerHandlerConfig managerHandlerCfg;
+  GameConfig gameCfg;
   uint32_t maxFrameRate = 0;
 };
 
