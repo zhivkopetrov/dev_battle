@@ -12,6 +12,7 @@
 //Own components headers
 #include "engine/Engine.h"
 #include "engine/config/EngineConfig.hpp"
+#include "resources/GuiResources.h"
 
 #include "utils/time/Time.h"
 #include "utils/file_system/FileSystemUtils.h"
@@ -31,8 +32,8 @@ constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
 constexpr auto ALLOW_MULTITHREAD_RES_LOADING = true;
 constexpr auto GAME_MODE = GameMode::NORMAL;
-constexpr auto GAME_FIELD_TILE_ROWS = 20;
-constexpr auto GAME_FIELD_TILE_COLS = 15;
+constexpr auto GAME_FIELD_ROWS = 15;
+constexpr auto GAME_FIELD_COLS = 20;
 }
 
 
@@ -69,8 +70,12 @@ static void populateConfig(EngineConfig &cfg,
     progressBarOffImagePath = loadingScreenFolderPath + "progressOff.png";
 
   cfg.gameCfg.gameMode = GAME_MODE;
-  cfg.gameCfg.fieldCfg.tileRows = GAME_FIELD_TILE_ROWS;
-  cfg.gameCfg.fieldCfg.tileCols = GAME_FIELD_TILE_COLS;
+  cfg.gameCfg.fieldCfg.rows = GAME_FIELD_ROWS;
+  cfg.gameCfg.fieldCfg.cols = GAME_FIELD_COLS;
+  cfg.gameCfg.fieldCfg.tileSurfaceRsrcId = GuiResources::TILE_SURFACE;
+  cfg.gameCfg.fieldCfg.tileWholeRsrcId = GuiResources::TILE_WHOLE;
+  cfg.gameCfg.fieldCfg.tileTargetRsrcId = GuiResources::TILE_TARGET;
+  cfg.gameCfg.fieldCfg.tileConfig.debugFontRsrcId = GuiResources::VINQUE_RG;
 }
 
 static int32_t runApplication() {

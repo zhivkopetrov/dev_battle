@@ -15,7 +15,9 @@ add_executable(
         ${_INCLUDE_DIR}/game/config/GameConfig.hpp
         ${_INCLUDE_DIR}/game/defines/GameDefines.h
         ${_INCLUDE_DIR}/game/field/Field.h
+        ${_INCLUDE_DIR}/game/field/Tile.h
         ${_INCLUDE_DIR}/game/field/config/FieldConfig.hpp
+        ${_INCLUDE_DIR}/game/field/config/TileConfig.hpp
         ${_INCLUDE_DIR}/managers/config/ManagerHandlerConfig.hpp
         ${_INCLUDE_DIR}/managers/ManagerHandler.h
         ${_INCLUDE_DIR}/managers/DrawMgr.h
@@ -27,6 +29,7 @@ add_executable(
         ${_SRC_DIR}/game/Game.cpp
         ${_SRC_DIR}/game/defines/GameDefines.cpp
         ${_SRC_DIR}/game/field/Field.cpp
+        ${_SRC_DIR}/game/field/Tile.cpp
         ${_SRC_DIR}/managers/ManagerHandler.cpp
         ${_SRC_DIR}/managers/DrawMgr.cpp
         ${_SRC_DIR}/managers/RsrcMgr.cpp

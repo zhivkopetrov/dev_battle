@@ -17,7 +17,7 @@ struct GameConfig;
 
 class Game {
 public:
-  int32_t init(const GameConfig &cfg);
+  int32_t init(GameConfig &cfg);
 
   void handleEvent(const InputEvent &e);
 

@@ -25,4 +25,4 @@ load=on_init
 tag=[VINQUE_RG]
 type=font
 path=f/vinque_rg.ttf
-description=20
+description=15

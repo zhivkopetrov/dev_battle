@@ -12,7 +12,7 @@
 #include "game/config/GameConfig.hpp"
 #include "utils/Log.h"
 
-int32_t Game::init(const GameConfig &cfg) {
+int32_t Game::init(GameConfig &cfg) {
   if (EXIT_SUCCESS != _field.init(cfg.fieldCfg)) {
     LOGERR("Error in _field.init()");
     return EXIT_FAILURE;

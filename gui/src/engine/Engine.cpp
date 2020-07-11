@@ -17,7 +17,7 @@
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
 
-int32_t Engine::init(const EngineConfig &engineCfg) {
+int32_t Engine::init(EngineConfig &engineCfg) {
   if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
     LOGERR("Error in _managerHandler.init()");
     return EXIT_FAILURE;

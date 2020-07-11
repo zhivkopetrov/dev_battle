@@ -18,7 +18,7 @@ struct EngineConfig;
 
 class Engine {
 public:
-  int32_t init(const EngineConfig &engineCfg);
+  int32_t init(EngineConfig &engineCfg);
 
   void deinit();
 
