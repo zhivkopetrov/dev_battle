@@ -2,7 +2,6 @@
 
 //C++ system headers
 #include <cstdint>
-#include <thread>
 
 //Other libraries headers
 #include "sdl_utils/SDLLoader.h"
@@ -37,17 +36,14 @@ constexpr auto GAME_FIELD_COLS = 20;
 }
 
 
-static void populateConfig(EngineConfig &cfg,
-                           Renderer &renderer,
-                           MonitorWindow &monitorWindow) {
+static void populateConfig(EngineConfig &cfg) {
   cfg.maxFrameRate = MAX_FRAME_RATE;
 
-  cfg.managerHandlerCfg.drawMgrBaseCfg.renderer = &renderer;
-  cfg.managerHandlerCfg.drawMgrBaseCfg.window = &monitorWindow;
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorWidth = MONITOR_WIDTH;
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorHeight = MONITOR_HEIGHT;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.windowDisplayMode = windowDisplayMode;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.windowBorderMode = windowBorderMode;
 
-  cfg.managerHandlerCfg.sdlContainersCfg.renderer = &renderer;
   cfg.managerHandlerCfg.sdlContainersCfg.isMultithreadResAllowed =
       ALLOW_MULTITHREAD_RES_LOADING;
   cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation =
@@ -79,22 +75,10 @@ static void populateConfig(EngineConfig &cfg,
 }
 
 static int32_t runApplication() {
-  MonitorWindow mainWindow(MONITOR_WIDTH, MONITOR_HEIGHT);
-  Renderer renderer;
   Engine engine;
 
   EngineConfig engineCfg;
-  populateConfig(engineCfg, renderer, mainWindow);
-
-  if (EXIT_SUCCESS != mainWindow.init(windowDisplayMode, windowBorderMode)) {
-    LOGERR("Error, mainWindow.init() failed");
-    return EXIT_FAILURE;
-  }
-
-  if (EXIT_SUCCESS != renderer.init(mainWindow.getWindow())) {
-    LOGERR("Error, renderer.init() failed");
-    return EXIT_FAILURE;
-  }
+  populateConfig(engineCfg);
 
   if (EXIT_SUCCESS != engine.init(engineCfg)) {
     LOGERR("Error in engine.init() Terminating ...");
@@ -105,21 +89,7 @@ static int32_t runApplication() {
     return EXIT_FAILURE;
   }
 
-  std::thread engineThread = std::thread(&Engine::start, &engine);
-
-  //enter rendering loop
-  renderer.executeRenderCommands_RT();
-
-  //sanity check
-  if (engineThread.joinable()) {
-    engineThread.join();
-  }
-
-  engine.deinit();
-  renderer.deinit();
-  mainWindow.deinit();
-
-  return EXIT_SUCCESS;
+  return engine.start();
 }
 
 int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
@@ -160,8 +130,9 @@ int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
 
   const auto upTimeSeconds = time.getElapsedFromStart().toSeconds();
 
-  LOGG("Total engine uptime: Hours: %ld, Minutes: %ld, Seconds: %ld",
-       upTimeSeconds / 3600, upTimeSeconds / 60, upTimeSeconds);
+  LOGG("Exit error code: %d, Total engine uptime: "
+      "Hours: %ld, Minutes: %ld, Seconds: %ld",
+      err, upTimeSeconds / 3600, upTimeSeconds / 60, upTimeSeconds);
 
   return err;
 }

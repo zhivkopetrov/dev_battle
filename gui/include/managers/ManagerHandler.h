@@ -42,6 +42,8 @@ public:
   //================== END engine interface functions ====================
 
 private:
+  int32_t allocateManagers(const ManagerHandlerConfig &cfg);
+
   /** @brief used to reset the global manager pointer to nullptr at deinit
    *         so sanity checks could catch possible failures on system
    *         deinit

@@ -18,15 +18,17 @@ struct EngineConfig;
 
 class Engine {
 public:
-  int32_t init(EngineConfig &engineCfg);
+  ~Engine();
 
-  void deinit();
+  int32_t init(EngineConfig &engineCfg);
 
   int32_t recover();
 
-  void start();
+  int32_t start();
 
 private:
+  void deinit();
+
   void mainLoop();
 
   bool processFrame();

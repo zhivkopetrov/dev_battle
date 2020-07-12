@@ -7,6 +7,7 @@
 //C++ system headers
 #include <cstdlib>
 #include <string>
+#include <thread>
 
 //Other libraries headers
 
@@ -16,6 +17,10 @@
 #include "managers/RsrcMgr.h"
 #include "managers/TimerMgr.h"
 #include "utils/Log.h"
+
+Engine::~Engine() {
+  deinit();
+}
 
 int32_t Engine::init(EngineConfig &engineCfg) {
   if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
@@ -38,16 +43,14 @@ int32_t Engine::init(EngineConfig &engineCfg) {
   return EXIT_SUCCESS;
 }
 
-void Engine::deinit() {
-  _managerHandler.deinit();
-  _inputEvent.deinit();
-}
-
 int32_t Engine::recover() {
   return EXIT_SUCCESS;
 }
 
 void Engine::mainLoop() {
+  //give some time to the main(rendering thread) to enter it's drawing loop
+  usleep(1000); //1ms
+
   Time fpsTime;
   uint32_t fpsDelay = 0;
 
@@ -76,8 +79,23 @@ void Engine::mainLoop() {
   }
 }
 
-void Engine::start() {
-  mainLoop();
+void Engine::deinit() {
+  _managerHandler.deinit();
+  _inputEvent.deinit();
+}
+
+int32_t Engine::start() {
+  std::thread engineThread = std::thread(&Engine::mainLoop, this);
+
+  //enter rendering loop
+  gDrawMgr->startRenderingLoop();
+
+  //sanity check
+  if (engineThread.joinable()) {
+    engineThread.join();
+  }
+
+  return EXIT_SUCCESS;
 }
 
 bool Engine::processFrame() {
