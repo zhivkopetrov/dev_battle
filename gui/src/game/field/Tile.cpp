@@ -20,7 +20,7 @@ constexpr auto DEBUG_TEXT_OFFSET_X = 1;
 constexpr auto DEBUG_TEXT_OFFSET_Y = 13;
 }
 
-static Point getTileCoordinates(const int row, const int col) {
+static Point getTileCoordinates(const int32_t row, const int32_t col) {
   const auto rowOffset = row * TILE_HEIGHT / 4;
   auto colOffset = 0;
   //if row is odd
@@ -44,7 +44,7 @@ int32_t Tile::init(const TileConfig &cfg) {
   _debugText.create(cfg.debugFontRsrcId, debugText.c_str(), Colors::RED,
       Point(tilePos.x + DEBUG_TEXT_OFFSET_X, tilePos.y + DEBUG_TEXT_OFFSET_Y));
 
-  static int frame = 0;
+  static int32_t frame = 0;
   _tileImg.setFrame(frame++ % 4);
 
   return EXIT_SUCCESS;

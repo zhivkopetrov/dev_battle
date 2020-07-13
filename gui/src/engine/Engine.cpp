@@ -38,6 +38,12 @@ int32_t Engine::init(EngineConfig &engineCfg) {
     return EXIT_FAILURE;
   }
 
+  if (EXIT_SUCCESS != _debugConsole.init(
+      engineCfg.debugConsoleRsrcId, engineCfg.maxFrameRate)) {
+    LOGERR("Error in _debugConsole.init()");
+    return EXIT_FAILURE;
+  }
+
   onInitEnd(engineCfg);
 
   return EXIT_SUCCESS;
@@ -66,6 +72,11 @@ void Engine::mainLoop() {
 
 #if !ENABLE_VSYNC
     fpsDelay = static_cast<uint32_t>(fpsTime.getElapsed().toMicroseconds());
+
+    if (_debugConsole.isActive()) {
+      //TODO if active - populate a "debug struct and pass it to the console"
+      _debugConsole.update(fpsDelay, gDrawMgr->getTotalWidgetCount());
+    }
 
     const uint32_t MAX_MICROSECONDS_PER_FRAME = MILLISECOND
         / gDrawMgr->getMaxFrameRate();
@@ -119,11 +130,16 @@ void Engine::drawFrame() {
 
   _game.draw();
 
+  if (_debugConsole.isActive()) {
+    _debugConsole.draw();
+  }
+
   gDrawMgr->finishFrame();
 }
 
 void Engine::handleEvent() {
   _game.handleEvent(_inputEvent);
+  _debugConsole.handleEvent(_inputEvent);
 }
 
 void Engine::onInitEnd(const EngineConfig &engineCfg) {

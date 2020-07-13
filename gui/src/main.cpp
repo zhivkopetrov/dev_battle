@@ -30,6 +30,18 @@ constexpr auto ROOT_PROJECT_NAME = "dev_battle";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
 constexpr auto ALLOW_MULTITHREAD_RES_LOADING = true;
+
+constexpr auto MAX_RUNTIME_TEXTS = 400;
+constexpr auto MAX_RUNTIME_SPRITE_BUFFERS = 50;
+constexpr auto MAX_RUNTIME_IMAGES = 200;
+constexpr auto MAX_RUNTIME_WIDGETS =  MAX_RUNTIME_TEXTS +
+    MAX_RUNTIME_SPRITE_BUFFERS + MAX_RUNTIME_IMAGES;
+constexpr auto MAX_RUNTIME_RENDERER_COMMANDS =
+    MAX_RUNTIME_WIDGETS * 2;
+//65k bytes
+constexpr auto MAX_RENDERER_BACK_BUFFER_DATA_SIZE =
+    std::numeric_limits<uint16_t>::max();
+
 constexpr auto GAME_MODE = GameMode::NORMAL;
 constexpr auto GAME_FIELD_ROWS = 15;
 constexpr auto GAME_FIELD_COLS = 20;
@@ -38,6 +50,14 @@ constexpr auto GAME_FIELD_COLS = 20;
 
 static void populateConfig(EngineConfig &cfg) {
   cfg.maxFrameRate = MAX_FRAME_RATE;
+  cfg.debugConsoleRsrcId = GuiResources::VINQUE_RG;
+
+  cfg.managerHandlerCfg.drawMgrBaseCfg.rendererConfig.
+    maxRuntimeRendererCommands = MAX_RUNTIME_RENDERER_COMMANDS;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.rendererConfig.maxRuntimeWidgets =
+      MAX_RUNTIME_WIDGETS;
+  cfg.managerHandlerCfg.drawMgrBaseCfg.rendererConfig.
+    maxRendererBackBufferDataSize = MAX_RENDERER_BACK_BUFFER_DATA_SIZE;
 
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorWidth = MONITOR_WIDTH;
   cfg.managerHandlerCfg.drawMgrBaseCfg.monitorHeight = MONITOR_HEIGHT;
@@ -46,6 +66,10 @@ static void populateConfig(EngineConfig &cfg) {
 
   cfg.managerHandlerCfg.sdlContainersCfg.isMultithreadResAllowed =
       ALLOW_MULTITHREAD_RES_LOADING;
+  cfg.managerHandlerCfg.sdlContainersCfg.maxRuntimeSpriteBuffers =
+      MAX_RUNTIME_SPRITE_BUFFERS;
+  cfg.managerHandlerCfg.sdlContainersCfg.maxRuntimeTexts =
+      MAX_RUNTIME_TEXTS;
   cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation =
       FileSystemUtils::getBuildDirectory();
   cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation.append(

@@ -10,6 +10,7 @@ set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_executable(
     ${PROJECT_NAME} 
         ${_INCLUDE_DIR}/engine/Engine.h
+        ${_INCLUDE_DIR}/engine/DebugConsole.h
         ${_INCLUDE_DIR}/engine/config/EngineConfig.hpp
         ${_INCLUDE_DIR}/game/Game.h
         ${_INCLUDE_DIR}/game/config/GameConfig.hpp
@@ -26,6 +27,7 @@ add_executable(
     
         ${_SRC_DIR}/main.cpp
         ${_SRC_DIR}/engine/Engine.cpp
+        ${_SRC_DIR}/engine/DebugConsole.cpp
         ${_SRC_DIR}/game/Game.cpp
         ${_SRC_DIR}/game/defines/GameDefines.cpp
         ${_SRC_DIR}/game/field/Field.cpp

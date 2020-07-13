@@ -16,6 +16,7 @@
 struct EngineConfig {
   ManagerHandlerConfig managerHandlerCfg;
   GameConfig gameCfg;
+  uint64_t debugConsoleRsrcId = 0;
   uint32_t maxFrameRate = 0;
 };
 

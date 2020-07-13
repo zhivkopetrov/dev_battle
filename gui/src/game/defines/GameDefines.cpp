@@ -11,7 +11,7 @@
 #include "utils/data_type/EnumClassUtils.hpp"
 #include "utils/Log.h"
 
-GameMode toGameMode(const int mode) {
+GameMode toGameMode(const int32_t mode) {
   const GameMode gameMode = toEnum<GameMode>(mode);
 
   switch (gameMode) {

@@ -21,7 +21,7 @@ int32_t Field::init(FieldConfig &cfg) {
 
   _tiles.resize(cfg.rows);
   cfg.tileConfig.tileRsrcId = cfg.tileSurfaceRsrcId;
-  const int surfaceOnlyTileRows = cfg.rows - 1;
+  const int32_t surfaceOnlyTileRows = cfg.rows - 1;
   for (int row = 0; row < surfaceOnlyTileRows; ++row) {
     _tiles[row].resize(cfg.cols);
     cfg.tileConfig.row = row;
@@ -36,7 +36,7 @@ int32_t Field::init(FieldConfig &cfg) {
 
   //populate last row
   cfg.tileConfig.tileRsrcId = cfg.tileWholeRsrcId;
-  const int lastRowIdx = surfaceOnlyTileRows;
+  const int32_t lastRowIdx = surfaceOnlyTileRows;
   _tiles[lastRowIdx].resize(cfg.cols);
   cfg.tileConfig.row = lastRowIdx;
   for (int col = 0; col < cfg.cols; ++col) {

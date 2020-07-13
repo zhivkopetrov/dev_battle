@@ -4,6 +4,7 @@
 //C system headers
 
 //C++ system headers
+#include <cstdint>
 
 //Other libraries headers
 
@@ -18,7 +19,7 @@ enum class GameMode {
   SUPER_EXTENDED
 };
 
-GameMode toGameMode(const int mode);
+GameMode toGameMode(const int32_t mode);
 
 #endif /* GUI_GAMEDEFINES_H_ */
 

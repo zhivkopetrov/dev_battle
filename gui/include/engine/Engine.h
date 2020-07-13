@@ -12,6 +12,7 @@
 #include "managers/ManagerHandler.h"
 #include "sdl_utils/input/InputEvent.h"
 #include "game/Game.h"
+#include "engine/DebugConsole.h"
 
 //Forward declarations
 struct EngineConfig;
@@ -44,6 +45,8 @@ private:
   InputEvent _inputEvent;
 
   Game _game;
+
+  DebugConsole _debugConsole;
 };
 
 #endif /* GUI_ENGINE_H_ */
