@@ -21,6 +21,8 @@
 
 namespace {
 //TODO parse the params from config
+
+//TODO add a param for resource loading threads. if 0 is provided - hardware_concurency is used
 constexpr auto windowDisplayMode = WindowDisplayMode::FULL_SCREEN;
 constexpr auto windowBorderMode = WindowBorderMode::BORDERLESS;
 constexpr auto MONITOR_WIDTH = 1920;
