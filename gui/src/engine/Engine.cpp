@@ -56,13 +56,10 @@ int32_t Engine::recover() {
 void Engine::mainLoop() {
   //give some time to the main(rendering thread) to enter it's drawing loop
   usleep(1000); //1ms
-
   Time fpsTime;
-  uint32_t fpsDelay = 0;
 
   while (true) {
-    //begin measure the new frame elapsed time
-    fpsTime.getElapsed();
+    fpsTime.getElapsed(); //begin measure the new frame elapsed time
 
     if (processFrame()) {
       //user has requested exit -> break the main loop
@@ -70,26 +67,13 @@ void Engine::mainLoop() {
       return;
     }
 
-#if !ENABLE_VSYNC
-    fpsDelay = static_cast<uint32_t>(fpsTime.getElapsed().toMicroseconds());
-
+    const int64_t elapsedTime = fpsTime.getElapsed().toMicroseconds();
     if (_debugConsole.isActive()) {
-      DebugConsoleData debugData;
-      debugData.elapsedTime = fpsDelay;
-      debugData.activeTimers = gTimerMgr->getActiveTimersCount();
-      debugData.activeWidgets = gDrawMgr->getTotalWidgetCount();
-      debugData.gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage();
-      _debugConsole.update(debugData);
+      populateDebugConsole(elapsedTime);
     }
 
-    const uint32_t MAX_MICROSECONDS_PER_FRAME = MILLISECOND
-        / gDrawMgr->getMaxFrameRate();
-    MAX_MICROSECONDS_PER_FRAME < fpsDelay ?
-        fpsDelay = 0 : fpsDelay = MAX_MICROSECONDS_PER_FRAME - fpsDelay;
-
-    //Sleep the logic thread if max FPS is reached.
-    //No need to struggle the CPU.
-    usleep(fpsDelay);
+#if !ENABLE_VSYNC
+    limitFPS(elapsedTime);
 #endif //!ENABLE_VSYNC
   }
 }
@@ -150,5 +134,25 @@ void Engine::onInitEnd(const EngineConfig &engineCfg) {
   gDrawMgr->setSDLContainers(gRsrcMgr);
   gDrawMgr->setMaxFrameRate(engineCfg.maxFrameRate);
   gTimerMgr->onInitEnd();
+}
+
+void Engine::populateDebugConsole(const int64_t elapsedTime) {
+  DebugConsoleData debugData;
+  debugData.elapsedTime = elapsedTime;
+  debugData.activeTimers = gTimerMgr->getActiveTimersCount();
+  debugData.activeWidgets = gDrawMgr->getTotalWidgetCount();
+  debugData.gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage();
+  _debugConsole.update(debugData);
+}
+
+void Engine::limitFPS(const int64_t elapsedTime) {
+  const int64_t maxMicosecsPerFrame =
+      MILLISECOND / gDrawMgr->getMaxFrameRate();
+  const int64_t fpsDelay = (maxMicosecsPerFrame > elapsedTime) ?
+       maxMicosecsPerFrame - elapsedTime : 0;
+
+  //Sleep the logic thread if max FPS is reached.
+  //No need to struggle the CPU.
+  usleep(static_cast<uint32_t>(fpsDelay));
 }
 

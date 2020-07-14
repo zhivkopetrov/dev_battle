@@ -25,7 +25,11 @@ constexpr auto windowDisplayMode = WindowDisplayMode::FULL_SCREEN;
 constexpr auto windowBorderMode = WindowBorderMode::BORDERLESS;
 constexpr auto MONITOR_WIDTH = 1920;
 constexpr auto MONITOR_HEIGHT = 1080;
+#if ENABLE_VSYNC
+constexpr auto MAX_FRAME_RATE = 300;
+#else
 constexpr auto MAX_FRAME_RATE = 60;
+#endif //ENABLE_VSYNC
 constexpr auto ROOT_PROJECT_NAME = "dev_battle";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";

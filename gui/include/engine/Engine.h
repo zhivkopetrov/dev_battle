@@ -40,6 +40,10 @@ private:
 
   void onInitEnd(const EngineConfig &engineCfg);
 
+  void populateDebugConsole(const int64_t elapsedTime);
+
+  void limitFPS(const int64_t elapsedTime);
+
   ManagerHandler _managerHandler;
 
   InputEvent _inputEvent;
