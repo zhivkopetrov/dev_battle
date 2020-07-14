@@ -21,8 +21,6 @@
 
 namespace {
 //TODO parse the params from config
-
-//TODO add a param for resource loading threads. if 0 is provided - hardware_concurency is used
 constexpr auto windowDisplayMode = WindowDisplayMode::FULL_SCREEN;
 constexpr auto windowBorderMode = WindowBorderMode::BORDERLESS;
 constexpr auto MONITOR_WIDTH = 1920;
@@ -35,7 +33,8 @@ constexpr auto MAX_FRAME_RATE = 60;
 constexpr auto ROOT_PROJECT_NAME = "dev_battle";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
-constexpr auto ALLOW_MULTITHREAD_RES_LOADING = true;
+constexpr auto HARDWARE_CONCURRENCY_HINT = 0;
+constexpr auto MAX_RESOURCE_LOADING_THREADS = HARDWARE_CONCURRENCY_HINT;
 
 constexpr auto MAX_RUNTIME_TEXTS = 400;
 constexpr auto MAX_RUNTIME_SPRITE_BUFFERS = 50;
@@ -70,8 +69,8 @@ static void populateConfig(EngineConfig &cfg) {
   cfg.managerHandlerCfg.drawMgrBaseCfg.windowDisplayMode = windowDisplayMode;
   cfg.managerHandlerCfg.drawMgrBaseCfg.windowBorderMode = windowBorderMode;
 
-  cfg.managerHandlerCfg.sdlContainersCfg.isMultithreadResAllowed =
-      ALLOW_MULTITHREAD_RES_LOADING;
+  cfg.managerHandlerCfg.sdlContainersCfg.maxResourceLoadingThreads =
+      MAX_RESOURCE_LOADING_THREADS;
   cfg.managerHandlerCfg.sdlContainersCfg.maxRuntimeSpriteBuffers =
       MAX_RUNTIME_SPRITE_BUFFERS;
   cfg.managerHandlerCfg.sdlContainersCfg.maxRuntimeTexts =
