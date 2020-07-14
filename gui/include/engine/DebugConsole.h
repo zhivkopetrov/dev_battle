@@ -14,6 +14,13 @@
 //Forward declarations
 class InputEvent;
 
+struct DebugConsoleData {
+  int64_t elapsedTime = 0;
+  int64_t activeTimers = 0;
+  uint64_t gpuMemoryUsage = 0;
+  uint32_t activeWidgets = 0;
+};
+
 class DebugConsole {
 public:
   DebugConsole();
@@ -24,7 +31,7 @@ public:
    * */
   void handleEvent(const InputEvent &e);
 
-  void update(const int64_t elapsedTime, const uint32_t activeWidgets);
+  void update(const DebugConsoleData &data);
 
   void draw();
 
@@ -33,8 +40,16 @@ public:
   }
 
 private:
-  Text _fpsText;
-  Text _activeWidgetsText;
+  enum DebugTexts {
+      FPS_COUNTER,
+      ACTIVE_TIMERS,
+      ACTIVE_WIDGETS,
+      GPU_MEMORY_USAGE,
+
+      DEBUG_TEXTS_COUNT
+  };
+
+  Text _debugTexts[DEBUG_TEXTS_COUNT];
 
   int64_t _maxFrames;
 

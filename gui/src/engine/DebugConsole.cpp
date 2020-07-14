@@ -25,8 +25,19 @@ DebugConsole::DebugConsole()
 
 int32_t DebugConsole::init(const uint64_t fontRsrcId,
                            const int64_t maxFrameRate) {
-  _fpsText.create(fontRsrcId, "0", Colors::YELLOW, Point(20, 20));
-  _activeWidgetsText.create(fontRsrcId, "0", Colors::YELLOW, Point(20, 50));
+  constexpr auto INITIAL_TEXT_X = 20;
+  constexpr auto INITIAL_TEXT_Y = 10;
+  constexpr auto TEXT_OFFSET_Y = 10;
+  constexpr auto INITIAL_TEXT_CONTENT = "0";
+  _debugTexts[FPS_COUNTER].create(fontRsrcId, INITIAL_TEXT_CONTENT,
+      Colors::YELLOW, Point(INITIAL_TEXT_X, INITIAL_TEXT_Y));
+
+  for (int32_t i = 1; i < DEBUG_TEXTS_COUNT; ++i) {
+    _debugTexts[i].create(fontRsrcId, INITIAL_TEXT_CONTENT, Colors::YELLOW,
+        Point(INITIAL_TEXT_X, (_debugTexts[i - 1].getY() +
+            _debugTexts[i - 1].getCroppedFrameHeight()) + TEXT_OFFSET_Y));
+  }
+
   _maxFrames = maxFrameRate;
 
   return EXIT_SUCCESS;
@@ -40,31 +51,52 @@ void DebugConsole::handleEvent(const InputEvent &e) {
   }
 }
 
-//update fps text once in a while to get a stable(not constantly changing) image
-void DebugConsole::update(const int64_t elapsedTime,
-                          const uint32_t activeWidgets) {
+
+void DebugConsole::update(const DebugConsoleData &data) {
   --_updateCounter;
   if (0 < _updateCounter) {
+    //update fps text once in a while to get a stable
+    //(not constantly changing) image
     return;
   }
   _updateCounter = UPDATE_SKIPS;
 
-  int64_t frames = MILLISECOND / elapsedTime;
+  int64_t frames = MILLISECOND / data.elapsedTime;
   if (frames > _maxFrames) {
     frames = _maxFrames;
   }
 
-  std::string fpsStr = "FPS: ";
-  fpsStr.append(std::to_string(frames));
-  _fpsText.setText(fpsStr.c_str());
+  std::string textStr;
+  textStr.reserve(50);
 
-  std::string widgetsStr = "Active widgets: ";
-  widgetsStr.append(std::to_string(activeWidgets));
-  _activeWidgetsText.setText(widgetsStr.c_str());
+  textStr = "FPS: ";
+  textStr.append(std::to_string(frames));
+  _debugTexts[FPS_COUNTER].setText(textStr.c_str());
+
+  textStr = "Active timers: ";
+  textStr.append(std::to_string(data.activeTimers));
+  _debugTexts[ACTIVE_TIMERS].setText(textStr.c_str());
+
+  textStr = "Active widgets: ";
+  textStr.append(std::to_string(data.activeWidgets));
+  _debugTexts[ACTIVE_WIDGETS].setText(textStr.c_str());
+
+  constexpr auto oneGigabyte = 1073741824; //1024 * 1024 * 1024
+  constexpr auto precision = 3;
+
+  const std::string usedVramStr = std::to_string(
+       static_cast<double>(data.gpuMemoryUsage) / oneGigabyte);
+  const size_t DOT_POS = usedVramStr.find('.');
+
+  textStr = "GPU usage: ";
+  textStr.append(usedVramStr.substr(0, DOT_POS + 1 + precision));
+  textStr.append(" GB");
+  _debugTexts[GPU_MEMORY_USAGE].setText(textStr.c_str());
 }
 
 void DebugConsole::draw() {
-  _fpsText.draw();
-  _activeWidgetsText.draw();
+  for (auto & text : _debugTexts) {
+    text.draw();
+  }
 }
 

@@ -74,8 +74,12 @@ void Engine::mainLoop() {
     fpsDelay = static_cast<uint32_t>(fpsTime.getElapsed().toMicroseconds());
 
     if (_debugConsole.isActive()) {
-      //TODO if active - populate a "debug struct and pass it to the console"
-      _debugConsole.update(fpsDelay, gDrawMgr->getTotalWidgetCount());
+      DebugConsoleData debugData;
+      debugData.elapsedTime = fpsDelay;
+      debugData.activeTimers = gTimerMgr->getActiveTimersCount();
+      debugData.activeWidgets = gDrawMgr->getTotalWidgetCount();
+      debugData.gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage();
+      _debugConsole.update(debugData);
     }
 
     const uint32_t MAX_MICROSECONDS_PER_FRAME = MILLISECOND
