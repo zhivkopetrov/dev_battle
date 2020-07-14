@@ -1,5 +1,6 @@
 ##### IMAGES
 
+# MAP
 tag=[TILE_SURFACE]
 type=sprite
 path=p/field/tile_surface.png
@@ -20,6 +21,15 @@ path=p/field/tile_target.png
 description=78,64,2,0
 position=0,0
 load=on_init
+
+# UNINTS
+tag=[HERO_ARCHER_RUN]
+type=sprite
+path=p/units/hero_archer_run.png
+description=50,48,6,0
+position=0,0
+load=on_init
+
 
 ##### FONTS
 tag=[VINQUE_RG]
