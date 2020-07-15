@@ -47,9 +47,21 @@ constexpr auto MAX_RUNTIME_RENDERER_COMMANDS =
 constexpr auto MAX_RENDERER_BACK_BUFFER_DATA_SIZE =
     std::numeric_limits<uint16_t>::max();
 
+//game field tiles
+constexpr auto TILE_WIDTH = 78;
+constexpr auto TILE_HEIGHT = 64;
+
+//game field
 constexpr auto GAME_MODE = GameMode::NORMAL;
 constexpr auto GAME_FIELD_ROWS = 15;
 constexpr auto GAME_FIELD_COLS = 20;
+constexpr auto GAME_FIELD_START_X = 150;
+constexpr auto GAME_FIELD_START_Y = 150;
+//NOTE: (TILE_WIDTH / 2) and (TILE_HEIGHT / 2) guarantee the tile offset
+constexpr auto GAME_FIELD_WIDTH =
+    (GAME_FIELD_COLS * TILE_WIDTH) + (TILE_WIDTH / 2);
+constexpr auto GAME_FIELD_HEIGHT =
+    (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
 }
 
 
@@ -97,6 +109,10 @@ static void populateConfig(EngineConfig &cfg) {
   cfg.gameCfg.gameMode = GAME_MODE;
   cfg.gameCfg.fieldCfg.rows = GAME_FIELD_ROWS;
   cfg.gameCfg.fieldCfg.cols = GAME_FIELD_COLS;
+  cfg.gameCfg.fieldCfg.fieldDimensions = { GAME_FIELD_START_X,
+      GAME_FIELD_START_Y, GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT };
+  cfg.gameCfg.fieldCfg.tileWidth = TILE_WIDTH;
+  cfg.gameCfg.fieldCfg.tileHeight = TILE_HEIGHT;
   cfg.gameCfg.fieldCfg.tileSurfaceRsrcId = GuiResources::TILE_SURFACE;
   cfg.gameCfg.fieldCfg.tileWholeRsrcId = GuiResources::TILE_WHOLE;
   cfg.gameCfg.fieldCfg.tileTargetRsrcId = GuiResources::TILE_TARGET;

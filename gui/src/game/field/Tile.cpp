@@ -11,38 +11,24 @@
 
 //Own components headers
 #include "game/field/config/TileConfig.hpp"
+#include "manager_utils/drawing/SpriteBuffer.h"
 
 namespace {
-constexpr auto TILE_WIDTH = 78;
-constexpr auto TILE_HEIGHT = 64;
-constexpr auto BASE_OFFSET = 150;
 constexpr auto DEBUG_TEXT_OFFSET_X = 1;
 constexpr auto DEBUG_TEXT_OFFSET_Y = 13;
 }
 
-static Point getTileCoordinates(const int32_t row, const int32_t col) {
-  const auto rowOffset = row * TILE_HEIGHT / 4;
-  auto colOffset = 0;
-  //if row is odd
-  if (1 & row) {
-    colOffset = TILE_WIDTH / 2;
-  }
-
-  return Point(BASE_OFFSET + colOffset + col * TILE_WIDTH,
-      BASE_OFFSET - rowOffset + row * TILE_HEIGHT);
-}
-
 int32_t Tile::init(const TileConfig &cfg) {
   _tileImg.create(cfg.tileRsrcId);
-  const auto tilePos = getTileCoordinates(cfg.row, cfg.col);
-  _tileImg.setPosition(tilePos);
+  _tileImg.setPosition(cfg.screenCoordinates);
 
   std::string debugText;
   debugText.reserve(8); //max debug string size
   debugText.append("[").append(std::to_string(cfg.row)).append(",").append(
       std::to_string(cfg.col)).append("]");
   _debugText.create(cfg.debugFontRsrcId, debugText.c_str(), Colors::RED,
-      Point(tilePos.x + DEBUG_TEXT_OFFSET_X, tilePos.y + DEBUG_TEXT_OFFSET_Y));
+      Point(cfg.screenCoordinates.x + DEBUG_TEXT_OFFSET_X,
+            cfg.screenCoordinates.y + DEBUG_TEXT_OFFSET_Y));
 
   static int32_t frame = 0;
   _tileImg.setFrame(frame++ % 4);
@@ -53,5 +39,10 @@ int32_t Tile::init(const TileConfig &cfg) {
 void Tile::draw() {
   _tileImg.draw();
   _debugText.draw();
+}
+
+void Tile::drawOnSpriteBuffer(SpriteBuffer &spriteBuffer) {
+  spriteBuffer.addWidget(_tileImg);
+  spriteBuffer.addWidget(_debugText);
 }
 

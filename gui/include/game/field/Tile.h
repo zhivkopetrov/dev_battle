@@ -13,6 +13,7 @@
 #include "manager_utils/drawing/Text.h"
 
 //Forward declarations
+class SpriteBuffer;
 struct TileConfig;
 struct TileDebugConfig;
 
@@ -21,6 +22,8 @@ public:
   int32_t init(const TileConfig &cfg);
 
   void draw();
+
+  void drawOnSpriteBuffer(SpriteBuffer &spriteBuffer);
 
 private:
   Image _tileImg;

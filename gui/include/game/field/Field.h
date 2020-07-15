@@ -11,6 +11,7 @@
 
 //Own components headers
 #include "game/field/Tile.h"
+#include "manager_utils/drawing/SpriteBuffer.h"
 
 //Forward declarations
 class InputEvent;
@@ -24,8 +25,12 @@ public:
 
   void draw();
 
+  void updateFieldSpriteBuffer();
+
   std::vector<std::vector<Tile>> _tiles;
   Image _tileTargetImg;
+
+  SpriteBuffer _fieldSB;
 };
 
 #endif /* GUI_FIELD_H_ */

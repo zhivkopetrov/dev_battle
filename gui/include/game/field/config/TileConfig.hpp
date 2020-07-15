@@ -9,10 +9,12 @@
 //Other libraries headers
 
 //Own components headers
+#include "utils/drawing/Point.h"
 
 //Forward declarations
 
 struct TileConfig {
+  Point screenCoordinates;
   uint64_t tileRsrcId = 0;
   uint64_t debugFontRsrcId = 0;
   int32_t row = 0;
