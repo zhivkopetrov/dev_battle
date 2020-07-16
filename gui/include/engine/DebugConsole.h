@@ -35,7 +35,7 @@ public:
 
   void draw();
 
-  inline bool isActive() const {
+  bool isActive() const {
     return _isActive;
   }
 
