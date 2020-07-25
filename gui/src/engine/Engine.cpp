@@ -5,7 +5,6 @@
 #include <unistd.h>
 
 //C++ system headers
-#include <cstdlib>
 #include <string>
 #include <thread>
 
@@ -16,6 +15,7 @@
 #include "managers/DrawMgr.h"
 #include "managers/RsrcMgr.h"
 #include "managers/TimerMgr.h"
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 Engine::~Engine() {
@@ -23,34 +23,34 @@ Engine::~Engine() {
 }
 
 int32_t Engine::init(EngineConfig &engineCfg) {
-  if (EXIT_SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
+  if (SUCCESS != _managerHandler.init(engineCfg.managerHandlerCfg)) {
     LOGERR("Error in _managerHandler.init()");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  if (EXIT_SUCCESS != _inputEvent.init()) {
+  if (SUCCESS != _inputEvent.init()) {
     LOGERR("Error in _inputEvent.init()");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  if (EXIT_SUCCESS != _game.init(engineCfg.gameCfg)) {
+  if (SUCCESS != _game.init(engineCfg.gameCfg)) {
     LOGERR("Error in _game.init()");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  if (EXIT_SUCCESS != _debugConsole.init(
+  if (SUCCESS != _debugConsole.init(
       engineCfg.debugConsoleRsrcId, engineCfg.maxFrameRate)) {
     LOGERR("Error in _debugConsole.init()");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
   onInitEnd(engineCfg);
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 int32_t Engine::recover() {
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void Engine::mainLoop() {
@@ -94,7 +94,7 @@ int32_t Engine::start() {
     engineThread.join();
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 bool Engine::processFrame() {

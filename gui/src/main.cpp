@@ -17,6 +17,7 @@
 #include "utils/file_system/FileSystemUtils.h"
 #include "resource_utils/common/ResourceFileHeader.h"
 #include "utils/debug/SignalHandler.h"
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 namespace {
@@ -125,20 +126,20 @@ static int32_t runApplication() {
   EngineConfig engineCfg;
   populateConfig(engineCfg);
 
-  if (EXIT_SUCCESS != engine.init(engineCfg)) {
+  if (SUCCESS != engine.init(engineCfg)) {
     LOGERR("Error in engine.init() Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
-  if (EXIT_SUCCESS != engine.recover()) {
+  if (SUCCESS != engine.recover()) {
     LOGERR("Error in engine.recover() Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
   return engine.start();
 }
 
 int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
-  int32_t err = EXIT_SUCCESS;
+  int32_t err = SUCCESS;
 
   //close default error stream. stdout stream will be used instead
   fclose(stderr);
@@ -151,9 +152,9 @@ int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
   SignalHandler::installSignal(SIGQUIT);
 
   //open SDL libraries
-  if (EXIT_SUCCESS != SDLLoader::init()) {
+  if (SUCCESS != SDLLoader::init()) {
     LOGERR("Error in SDLLoader::init() -> Terminating ...");
-    err = EXIT_FAILURE;
+    return FAILURE;
   } else {
     LOGG("SDLLoader::init() took: %ld ms", time.getElapsed().toMilliseconds());
   }
@@ -162,11 +163,10 @@ int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
    * call the engine destructor before main terminates
    * (so proper SDL::deinit() could be called)
    * */
-  if (EXIT_SUCCESS == err) {
-    if (EXIT_SUCCESS != runApplication()) {
+  if (SUCCESS == err) {
+    err = runApplication();
+    if (SUCCESS != err) {
       LOGERR("Error, runApplication() failed");
-
-      err = EXIT_FAILURE;
     }
   }
 

@@ -4,12 +4,12 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 
 //Other libraries headers
 
 //Own components headers
 #include "game/field/config/FieldConfig.hpp"
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 static Point getTileCoordinate(const int32_t row, const int32_t col,
@@ -29,7 +29,7 @@ int32_t Field::init(FieldConfig &cfg) {
   if (0 >= cfg.rows || 0 >= cfg.cols) {
     LOGERR("Invalid configuration, rows: %d, cols: %d. Both 'rows' and 'cols' "
         "needs to be positive number", cfg.rows, cfg.cols);
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
   _tiles.resize(cfg.rows);
@@ -48,9 +48,9 @@ int32_t Field::init(FieldConfig &cfg) {
       //apply field offset
       cfg.tileConfig.screenCoordinates.x += cfg.fieldDimensions.x;
       cfg.tileConfig.screenCoordinates.y += cfg.fieldDimensions.y;
-      if (EXIT_SUCCESS != _tiles[row][col].init(cfg.tileConfig)) {
+      if (SUCCESS != _tiles[row][col].init(cfg.tileConfig)) {
         LOGERR("_tiles[%d][%d].init() failed", row, col);
-        return EXIT_FAILURE;
+        return FAILURE;
       }
     }
   }
@@ -58,7 +58,7 @@ int32_t Field::init(FieldConfig &cfg) {
   _fieldSB.create(cfg.fieldDimensions);
   updateFieldSpriteBuffer();
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void Field::handleEvent([[maybe_unused]]const InputEvent &e) {

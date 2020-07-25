@@ -4,30 +4,30 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 
 //Other libraries headers
 
 //Own components headers
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 TimerMgr *gTimerMgr = nullptr;
 
 int32_t TimerMgr::init() {
-  if (EXIT_SUCCESS != TimerMgrBase::init()) {
+  if (SUCCESS != TimerMgrBase::init()) {
     LOGERR("Error in TimerMgrBase::init() -> Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 int32_t TimerMgr::recover() {
-  if (EXIT_SUCCESS != TimerMgrBase::recover()) {
+  if (SUCCESS != TimerMgrBase::recover()) {
     LOGERR("Error in TimerMgrBase::recover() -> Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void TimerMgr::deinit() {

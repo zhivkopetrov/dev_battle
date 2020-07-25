@@ -4,7 +4,6 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 #include <string>
 
 //Other libraries headers
@@ -12,6 +11,7 @@
 //Own components headers
 #include "game/field/config/TileConfig.hpp"
 #include "manager_utils/drawing/SpriteBuffer.h"
+#include "utils/ErrorCode.h"
 
 namespace {
 constexpr auto DEBUG_TEXT_OFFSET_X = 1;
@@ -33,7 +33,7 @@ int32_t Tile::init(const TileConfig &cfg) {
   static int32_t frame = 0;
   _tileImg.setFrame(frame++ % 4);
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void Tile::draw() {

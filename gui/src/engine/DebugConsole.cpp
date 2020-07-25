@@ -4,7 +4,6 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 #include <string>
 
 //Other libraries headers
@@ -13,6 +12,7 @@
 #include "sdl_utils/input/InputEvent.h"
 #include "utils/LimitValues.hpp"
 #include "utils/time/Time.h"
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 #define UPDATE_SKIPS 20
@@ -40,7 +40,7 @@ int32_t DebugConsole::init(const uint64_t fontRsrcId,
 
   _maxFrames = maxFrameRate;
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void DebugConsole::handleEvent(const InputEvent &e) {

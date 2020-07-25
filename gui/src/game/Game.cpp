@@ -4,21 +4,21 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 
 //Other libraries headers
 
 //Own components headers
 #include "game/config/GameConfig.hpp"
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 int32_t Game::init(GameConfig &cfg) {
-  if (EXIT_SUCCESS != _field.init(cfg.fieldCfg)) {
+  if (SUCCESS != _field.init(cfg.fieldCfg)) {
     LOGERR("Error in _field.init()");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void Game::handleEvent(const InputEvent &e) {

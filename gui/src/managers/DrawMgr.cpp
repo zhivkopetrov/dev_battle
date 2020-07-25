@@ -1,11 +1,14 @@
 //Corresponding header
 #include "managers/DrawMgr.h"
 
-#include <cstdlib>
+//C system headers
+
+//C++ system headers
 
 //Other libraries headers
 
 //Own components headers
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 DrawMgr *gDrawMgr = nullptr;
@@ -14,21 +17,21 @@ DrawMgr::DrawMgr(const DrawMgrBaseConfig &cfg) : DrawMgrBase(cfg) {
 }
 
 int32_t DrawMgr::init() {
-  if (EXIT_SUCCESS != DrawMgrBase::init()) {
+  if (SUCCESS != DrawMgrBase::init()) {
     LOGERR("Error in DrawMgrBase::init() -> Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 int32_t DrawMgr::recover() {
-  if (EXIT_SUCCESS != DrawMgrBase::recover()) {
+  if (SUCCESS != DrawMgrBase::recover()) {
     LOGERR("Error in DrawMgrBase::recover() -> Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 void DrawMgr::deinit() {

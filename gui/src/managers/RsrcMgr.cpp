@@ -4,11 +4,11 @@
 //C system headers
 
 //C++ system headers
-#include <cstdlib>
 
 //Other libraries headers
 
 //Own components headers
+#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 RsrcMgr *gRsrcMgr = nullptr;
@@ -17,21 +17,21 @@ RsrcMgr::RsrcMgr(const SDLContainersConfig &cfg) : RsrcMgrBase(cfg) {
 }
 
 int32_t RsrcMgr::init() {
-  if (EXIT_SUCCESS != RsrcMgrBase::init()) {
+  if (SUCCESS != RsrcMgrBase::init()) {
     LOGERR("Error in RsrcMgr::init() -> Terminating ...");
-    return EXIT_FAILURE;
+    return FAILURE;
   }
 
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }
 
 int32_t RsrcMgr::recover() {
-  int32_t err = EXIT_SUCCESS;
+  int32_t err = SUCCESS;
 
-  if (EXIT_SUCCESS != RsrcMgrBase::recover()) {
+  if (SUCCESS != RsrcMgrBase::recover()) {
     LOGERR("Error in RsrcMgr::recover() -> Terminating ...");
 
-    err = EXIT_FAILURE;
+    err = FAILURE;
   }
 
   return err;

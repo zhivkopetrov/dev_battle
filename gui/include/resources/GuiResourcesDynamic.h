@@ -10,9 +10,9 @@
 
 namespace GuiResourcesDynamic
 {
-    enum ResourceTags : uint64_t
-    {
-    }; /* enum ResourceTags */
+  enum ResourceTags : uint64_t
+  {
+  }; /* enum ResourceTags */
 } /* namespace GuiResourcesDynamic */
 
 #endif /* GUI_INCLUDE_RESOURCES__HOME_ZHIVKO_WORKSPACE_DEV_BATTLE_GUI_INCLUDE_RESOURCES_GUIRESOURCES_H_DYNAMIC */
