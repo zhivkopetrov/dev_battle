@@ -31,7 +31,7 @@ constexpr auto MAX_FRAME_RATE = 300;
 #else
 constexpr auto MAX_FRAME_RATE = 60;
 #endif //ENABLE_VSYNC
-constexpr auto ROOT_PROJECT_NAME = "dev_battle";
+constexpr auto PROJECT_NAME = "gui";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
 constexpr auto HARDWARE_CONCURRENCY_HINT = 0;
@@ -91,7 +91,7 @@ static void populateConfig(EngineConfig &cfg) {
   cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation =
       FileSystemUtils::getBuildDirectory();
   cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation.append(
-      ROOT_PROJECT_NAME).append("/").append(
+      PROJECT_NAME).append("/").append(
           ResourceFileHeader::getResourcesBinFolderName()).append("/");
 
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorWidth =
