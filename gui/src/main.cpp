@@ -94,6 +94,8 @@ static void populateConfig(EngineConfig &cfg) {
       PROJECT_NAME).append("/").append(
           ResourceFileHeader::getResourcesBinFolderName()).append("/");
 
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.loadingScreenUsage =
+      LoadingScreenUsage::ENABLED;
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorWidth =
       MONITOR_WIDTH;
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.monitorHeight =
