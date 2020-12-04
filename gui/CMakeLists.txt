@@ -24,8 +24,14 @@ add_executable(
         ${_INCLUDE_DIR}/game/field/Tile.h
         ${_INCLUDE_DIR}/game/field/config/FieldConfig.hpp
         ${_INCLUDE_DIR}/game/field/config/TileConfig.hpp
-        ${_INCLUDE_DIR}/game/field/units/config/UnitConfig.hpp
-        ${_INCLUDE_DIR}/game/field/units/basic/Unit.h
+        ${_INCLUDE_DIR}/game/units/defines/UnitDefines.h
+        ${_INCLUDE_DIR}/game/units/config/UnitConfig.hpp
+        ${_INCLUDE_DIR}/game/units/factory/UnitFactory.h
+        ${_INCLUDE_DIR}/game/units/basic/config/BasicUnitConfig.hpp
+        ${_INCLUDE_DIR}/game/units/basic/defines/BasicUnitDefines.h
+        ${_INCLUDE_DIR}/game/units/basic/Unit.h
+        ${_INCLUDE_DIR}/game/units/hero/config/HeroConfig.hpp
+        
     
         ${_SRC_DIR}/main.cpp
         ${_SRC_DIR}/engine/Engine.cpp
@@ -38,7 +44,8 @@ add_executable(
         ${_SRC_DIR}/game/defines/GameDefines.cpp
         ${_SRC_DIR}/game/field/Field.cpp
         ${_SRC_DIR}/game/field/Tile.cpp
-        ${_SRC_DIR}/game/field/units/basic/Unit.cpp
+        ${_SRC_DIR}/game/units/factory/UnitFactory.cpp
+        ${_SRC_DIR}/game/units/basic/Unit.cpp
 )
 
 set_target_cpp_standard(${PROJECT_NAME} 17)

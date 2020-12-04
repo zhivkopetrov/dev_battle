@@ -10,11 +10,11 @@
 //Other libraries headers
 
 //Own components headers
-#include "utils/drawing/Point.h"
+#include "game/units/defines/UnitDefines.h"
 
 //Forward declarations
 
-namespace Config {
+namespace UnitConfigs {
 enum KnightAttackConfig {
   KNIGHT_ATTACK_1,
   KNIGHT_ATTACK_2,
@@ -59,31 +59,18 @@ enum HeroActionConfig {
   HERO_ACTION_DASH,
   HERO_ACTION_COUNT
 };
-} //namespace Config
+} //namespace UnitConfigs
 
-enum class UnitType : uint8_t {
-  KNIGHT,
-  SPEARMAN,
-  ARCHER,
-
-  HERO_KNIGHT,
-  HERO_SPEARMAN,
-  HERO_ARCHER,
-  HERO_MAGE,
-
-  UNKNOWN = 255
+struct UnitVitalData {
+  uint8_t maxHealth = 0;
+  uint8_t maxSpeed = 0;
+  uint8_t maxRange = 0;
 };
 
 struct UnitConfig {
   std::vector<uint64_t> unitActionAnimRsrcIds;
   std::vector<uint64_t> unitAttackAnimRsrcIds;
-  UnitType unitType = UnitType::UNKNOWN;
-};
-
-struct HeroConfig {
-  UnitConfig unitConfig;
-  std::vector<uint64_t> heroActionAnimRsrcIds;
-  Point startPos;
+  UnitType unitType;
 };
 
 #endif /* GUI_UNITCONFIG_HPP_ */

@@ -1,5 +1,5 @@
 //Corresponding header
-#include "game/field/units/basic/Unit.h"
+#include "game/units/basic/Unit.h"
 
 //C system headers
 
@@ -8,7 +8,7 @@
 //Other libraries headers
 
 //Own components headers
-#include "game/field/units/config/UnitConfig.hpp"
+#include "game/units/config/UnitConfig.hpp"
 #include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
