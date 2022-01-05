@@ -44,6 +44,7 @@ add_executable(
 set_target_cpp_standard(${PROJECT_NAME} 17)
 enable_target_warnings(${PROJECT_NAME})
 set_target_visibility(${PROJECT_NAME})
+#enable_target_sanitizer(${PROJECT_NAME} "memory")
 
 target_link_libraries(
     ${PROJECT_NAME} 

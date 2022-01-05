@@ -15,9 +15,9 @@ GameMode toGameMode(const int32_t mode) {
   const GameMode gameMode = toEnum<GameMode>(mode);
 
   switch (gameMode) {
-  [[fallthrough]]
   case GameMode::NORMAL:
   case GameMode::EXTENDED:
+  [[fallthrough]];
   case GameMode::SUPER_EXTENDED:
     return gameMode;
   default:
