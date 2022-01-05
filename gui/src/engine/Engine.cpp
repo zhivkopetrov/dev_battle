@@ -2,11 +2,11 @@
 #include "engine/Engine.h"
 
 //C system headers
-#include <unistd.h>
 
 //C++ system headers
 #include <string>
 #include <thread>
+#include <chrono>
 
 //Other libraries headers
 
@@ -55,7 +55,8 @@ int32_t Engine::recover() {
 
 void Engine::mainLoop() {
   //give some time to the main(rendering thread) to enter it's drawing loop
-  usleep(1000); //1ms
+  using namespace std::literals;
+  std::this_thread::sleep_for(1s);
   Time fpsTime;
 
   while (true) {
@@ -148,11 +149,12 @@ void Engine::populateDebugConsole(const int64_t elapsedTime) {
 void Engine::limitFPS(const int64_t elapsedTime) {
   const int64_t maxMicosecsPerFrame =
       MILLISECOND / gDrawMgr->getMaxFrameRate();
-  const int64_t fpsDelay = (maxMicosecsPerFrame > elapsedTime) ?
-       maxMicosecsPerFrame - elapsedTime : 0;
+  const int64_t fpsDelay = maxMicosecsPerFrame - elapsedTime;
 
-  //Sleep the logic thread if max FPS is reached.
-  //No need to struggle the CPU.
-  usleep(static_cast<uint32_t>(fpsDelay));
+  if (0 > fpsDelay) {
+    //Sleep the logic thread if max FPS is reached.
+    //No need to struggle the CPU.
+    std::this_thread::sleep_for(std::chrono::microseconds(fpsDelay));
+  }
 }
 

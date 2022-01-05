@@ -29,7 +29,7 @@ constexpr auto MONITOR_HEIGHT = 1080;
 #if ENABLE_VSYNC
 constexpr auto MAX_FRAME_RATE = 300;
 #else
-constexpr auto MAX_FRAME_RATE = 60;
+constexpr auto MAX_FRAME_RATE = 75;
 #endif //ENABLE_VSYNC
 constexpr auto PROJECT_NAME = "gui";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
