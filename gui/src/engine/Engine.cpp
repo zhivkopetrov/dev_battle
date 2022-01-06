@@ -12,9 +12,9 @@
 
 //Own components headers
 #include "engine/config/EngineConfig.hpp"
-#include "managers/DrawMgr.h"
-#include "managers/RsrcMgr.h"
-#include "managers/TimerMgr.h"
+#include "manager_utils/managers_base/DrawMgrBase.h"
+#include "manager_utils/managers_base//RsrcMgrBase.h"
+#include "manager_utils/managers_base//TimerMgrBase.h"
 #include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
@@ -38,8 +38,8 @@ int32_t Engine::init(EngineConfig &engineCfg) {
     return FAILURE;
   }
 
-  if (SUCCESS != _debugConsole.init(
-      engineCfg.debugConsoleRsrcId, engineCfg.maxFrameRate)) {
+  if (SUCCESS != _debugConsole.init(engineCfg.debugConsoleRsrcId,
+          engineCfg.maxFrameRate)) {
     LOGERR("Error in _debugConsole.init()");
     return FAILURE;
   }
@@ -88,7 +88,7 @@ int32_t Engine::start() {
   std::thread engineThread = std::thread(&Engine::mainLoop, this);
 
   //enter rendering loop
-  gDrawMgr->startRenderingLoop();
+  gDrawMgrBase->startRenderingLoop();
 
   //sanity check
   if (engineThread.joinable()) {
@@ -115,7 +115,7 @@ bool Engine::processFrame() {
 }
 
 void Engine::drawFrame() {
-  gDrawMgr->clearScreen();
+  gDrawMgrBase->clearScreen();
 
   _game.draw();
 
@@ -123,7 +123,7 @@ void Engine::drawFrame() {
     _debugConsole.draw();
   }
 
-  gDrawMgr->finishFrame();
+  gDrawMgrBase->finishFrame();
 }
 
 void Engine::handleEvent() {
@@ -132,18 +132,15 @@ void Engine::handleEvent() {
 }
 
 void Engine::onInitEnd(const EngineConfig &engineCfg) {
-  gDrawMgr->setSDLContainers(gRsrcMgr);
-  gDrawMgr->setMaxFrameRate(engineCfg.maxFrameRate);
-  gTimerMgr->onInitEnd();
+  gDrawMgrBase->setSDLContainers(gRsrcMgrBase);
+  gDrawMgrBase->setMaxFrameRate(engineCfg.maxFrameRate);
+  gTimerMgrBase->onInitEnd();
 }
 
 void Engine::populateDebugConsole(const int64_t elapsedMiscroSeconds) {
-  const DebugConsoleData debugData {
-    .elapsedMicroSeconds = elapsedMiscroSeconds,
-    .activeTimers = gTimerMgr->getActiveTimersCount(),
-    .gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage(),
-    .activeWidgets = gDrawMgr->getTotalWidgetCount(),
-  };
+  const DebugConsoleData debugData (elapsedMiscroSeconds,
+      gTimerMgrBase->getActiveTimersCount(), gRsrcMgrBase->getGPUMemoryUsage(),
+      gDrawMgrBase->getTotalWidgetCount());
 
   _debugConsole.update(debugData);
 }
@@ -151,7 +148,7 @@ void Engine::populateDebugConsole(const int64_t elapsedMiscroSeconds) {
 void Engine::limitFPS(const int64_t elapsedMicroseconds) {
   constexpr auto microsecondsInASeconds = 1000000;
   const auto maxMicrosecondsPerFrame = microsecondsInASeconds
-      / gDrawMgr->getMaxFrameRate();
+      / gDrawMgrBase->getMaxFrameRate();
 
   const int64_t microSecondsFpsDelay = maxMicrosecondsPerFrame
       - elapsedMicroseconds;

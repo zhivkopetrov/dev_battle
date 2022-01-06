@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(dev_battle_server)
 
-set(_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
    
 add_executable(
@@ -19,9 +19,7 @@ set_target_visibility(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME} 
     PRIVATE
-        utils
         resource_utils
-        sdl_utils
         manager_utils
 )
 

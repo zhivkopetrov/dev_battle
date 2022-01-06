@@ -15,10 +15,18 @@
 class InputEvent;
 
 struct DebugConsoleData {
-  int64_t elapsedMicroSeconds = 0;
-  uint64_t activeTimers = 0;
-  uint64_t gpuMemoryUsage = 0;
-  uint32_t activeWidgets = 0;
+  explicit DebugConsoleData(int64_t inputElapsedMicroSeconds,
+                            uint64_t inputActiveTimers,
+                            uint64_t inputGpuMemoryUsage,
+                            uint32_t intpuActiveWidgets)
+      : elapsedMicroSeconds(inputElapsedMicroSeconds),
+        activeTimers(inputActiveTimers), gpuMemoryUsage(inputGpuMemoryUsage),
+        activeWidgets(intpuActiveWidgets) {}
+
+  int64_t elapsedMicroSeconds;
+  uint64_t activeTimers;
+  uint64_t gpuMemoryUsage;
+  uint32_t activeWidgets;
 };
 
 class DebugConsole {
@@ -41,12 +49,9 @@ public:
 
 private:
   enum DebugTexts {
-      FPS_COUNTER,
-      ACTIVE_TIMERS,
-      ACTIVE_WIDGETS,
-      GPU_MEMORY_USAGE,
+    FPS_COUNTER, ACTIVE_TIMERS, ACTIVE_WIDGETS, GPU_MEMORY_USAGE,
 
-      DEBUG_TEXTS_COUNT
+    DEBUG_TEXTS_COUNT
   };
 
   Text _debugTexts[DEBUG_TEXTS_COUNT];
