@@ -12,6 +12,7 @@ add_subdirectory(lib/utils)
 add_subdirectory(lib/resource_utils)
 add_subdirectory(lib/sdl_utils)
 add_subdirectory(lib/manager_utils)
+add_subdirectory(lib/game_engine)
 
 # tools
 add_subdirectory(tools)

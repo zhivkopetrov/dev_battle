@@ -1,5 +1,5 @@
 //Corresponding header
-#include "game/field/Tile.h"
+#include "field/Tile.h"
 
 //C system headers
 
@@ -7,11 +7,11 @@
 #include <string>
 
 //Other libraries headers
-
-//Own components headers
-#include "game/field/config/TileConfig.hpp"
 #include "manager_utils/drawing/SpriteBuffer.h"
 #include "utils/ErrorCode.h"
+
+//Own components headers
+#include "field/config/TileConfig.h"
 
 namespace {
 constexpr auto DEBUG_TEXT_OFFSET_X = 1;

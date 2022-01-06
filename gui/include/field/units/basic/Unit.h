@@ -7,9 +7,9 @@
 #include <cstdint>
 
 //Other libraries headers
+#include "manager_utils/drawing/Image.h"
 
 //Own components headers
-#include "manager_utils/drawing/Image.h"
 
 //Forward declarations
 class InputEvent;

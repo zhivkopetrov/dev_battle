@@ -1,5 +1,5 @@
-#ifndef GUI_UNITCONFIG_HPP_
-#define GUI_UNITCONFIG_HPP_
+#ifndef GUI_UNITCONFIG_H_
+#define GUI_UNITCONFIG_H_
 
 //C system headers
 
@@ -8,9 +8,9 @@
 #include <vector>
 
 //Other libraries headers
+#include "utils/drawing/Point.h"
 
 //Own components headers
-#include "utils/drawing/Point.h"
 
 //Forward declarations
 
@@ -86,5 +86,5 @@ struct HeroConfig {
   Point startPos;
 };
 
-#endif /* GUI_UNITCONFIG_HPP_ */
+#endif /* GUI_UNITCONFIG_H_ */
 

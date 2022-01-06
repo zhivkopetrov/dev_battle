@@ -1,5 +1,5 @@
-#ifndef GUI_TILECONFIG_HPP_
-#define GUI_TILECONFIG_HPP_
+#ifndef GUI_TILECONFIG_H_
+#define GUI_TILECONFIG_H_
 
 //C system headers
 
@@ -7,9 +7,9 @@
 #include <cstdint>
 
 //Other libraries headers
+#include "utils/drawing/Point.h"
 
 //Own components headers
-#include "utils/drawing/Point.h"
 
 //Forward declarations
 
@@ -21,5 +21,5 @@ struct TileConfig {
   int32_t col = 0;
 };
 
-#endif /* GUI_TILECONFIG_HPP_ */
+#endif /* GUI_TILECONFIG_H_ */
 

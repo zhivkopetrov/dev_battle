@@ -8,10 +8,10 @@
 #include <vector>
 
 //Other libraries headers
+#include "manager_utils/drawing/SpriteBuffer.h"
 
 //Own components headers
-#include "game/field/Tile.h"
-#include "manager_utils/drawing/SpriteBuffer.h"
+#include "field/Tile.h"
 
 //Forward declarations
 class InputEvent;
@@ -19,7 +19,7 @@ struct FieldConfig;
 
 class Field {
 public:
-  int32_t init(FieldConfig &cfg);
+  int32_t init(const FieldConfig &cfg);
 
   void handleEvent(const InputEvent &e);
 

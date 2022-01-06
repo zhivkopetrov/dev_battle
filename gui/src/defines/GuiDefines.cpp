@@ -1,15 +1,15 @@
 //Corresponding header
-#include "game/defines/GameDefines.h"
+#include "defines/GuiDefines.h"
 
 //C system headers
 
 //C++ system headers
 
 //Other libraries headers
+#include "utils/data_type/EnumClassUtils.h"
+#include "utils/Log.h"
 
 //Own components headers
-#include "utils/data_type/EnumClassUtils.hpp"
-#include "utils/Log.h"
 
 GameMode toGameMode(const int32_t mode) {
   const GameMode gameMode = toEnum<GameMode>(mode);

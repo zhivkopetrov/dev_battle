@@ -4,21 +4,16 @@
 #include <cstdint>
 
 //Other libraries headers
-#include "sdl_utils/SDLLoader.h"
-#include "sdl_utils/drawing/MonitorWindow.h"
-#include "sdl_utils/drawing/Renderer.h"
-
-//Own components headers
-#include "engine/Engine.h"
-#include "engine/config/EngineConfig.hpp"
-#include "resources/GuiResources.h"
-
-#include "utils/time/Time.h"
-#include "utils/file_system/FileSystemUtils.h"
+#include "game_engine/Application.h"
 #include "resource_utils/common/ResourceFileHeader.h"
-#include "utils/debug/SignalHandler.h"
+#include "utils/file_system/FileSystemUtils.h"
 #include "utils/ErrorCode.h"
 #include "utils/Log.h"
+
+//Own components headers
+#include "Gui.h"
+#include "config/GuiConfig.h"
+#include "resources/GuiResources.h"
 
 namespace {
 //TODO parse the params from config
@@ -26,11 +21,7 @@ constexpr auto windowDisplayMode = WindowDisplayMode::FULL_SCREEN;
 constexpr auto windowBorderMode = WindowBorderMode::BORDERLESS;
 constexpr auto MONITOR_WIDTH = 1920;
 constexpr auto MONITOR_HEIGHT = 1080;
-#if ENABLE_VSYNC
-constexpr auto MAX_FRAME_RATE = 300;
-#else
 constexpr auto MAX_FRAME_RATE = 75;
-#endif //ENABLE_VSYNC
 constexpr auto PROJECT_NAME = "gui";
 constexpr auto LOADING_SCREEN_RELATIVE_TO_ROOT_PATH =
     "gui/include/resources/p/loading_screen/";
@@ -65,8 +56,9 @@ constexpr auto GAME_FIELD_HEIGHT =
     (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
 }
 
+static EngineConfig populateEngineConfig() {
+  EngineConfig cfg;
 
-static void populateConfig(EngineConfig &cfg) {
   cfg.maxFrameRate = MAX_FRAME_RATE;
   cfg.debugConsoleRsrcId = GuiResources::VINQUE_RG;
 
@@ -109,78 +101,38 @@ static void populateConfig(EngineConfig &cfg) {
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.
     progressBarOffImagePath = loadingScreenFolderPath + "progressOff.png";
 
-  cfg.gameCfg.gameMode = GAME_MODE;
-  cfg.gameCfg.fieldCfg.rows = GAME_FIELD_ROWS;
-  cfg.gameCfg.fieldCfg.cols = GAME_FIELD_COLS;
-  cfg.gameCfg.fieldCfg.fieldDimensions = { GAME_FIELD_START_X,
-      GAME_FIELD_START_Y, GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT };
-  cfg.gameCfg.fieldCfg.tileWidth = TILE_WIDTH;
-  cfg.gameCfg.fieldCfg.tileHeight = TILE_HEIGHT;
-  cfg.gameCfg.fieldCfg.tileSurfaceRsrcId = GuiResources::TILE_SURFACE;
-  cfg.gameCfg.fieldCfg.tileWholeRsrcId = GuiResources::TILE_WHOLE;
-  cfg.gameCfg.fieldCfg.tileTargetRsrcId = GuiResources::TILE_TARGET;
-  cfg.gameCfg.fieldCfg.tileConfig.debugFontRsrcId = GuiResources::VINQUE_RG;
+  return cfg;
 }
 
-static int32_t runApplication() {
-  Engine engine;
+static GuiConfig populateGuiConfig() {
+  GuiConfig cfg;
 
-  EngineConfig engineCfg;
-  populateConfig(engineCfg);
+  cfg.gameMode = GAME_MODE;
+  cfg.fieldCfg.rows = GAME_FIELD_ROWS;
+  cfg.fieldCfg.cols = GAME_FIELD_COLS;
+  cfg.fieldCfg.fieldDimensions = { GAME_FIELD_START_X,
+      GAME_FIELD_START_Y, GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT };
+  cfg.fieldCfg.tileWidth = TILE_WIDTH;
+  cfg.fieldCfg.tileHeight = TILE_HEIGHT;
+  cfg.fieldCfg.tileSurfaceRsrcId = GuiResources::TILE_SURFACE;
+  cfg.fieldCfg.tileWholeRsrcId = GuiResources::TILE_WHOLE;
+  cfg.fieldCfg.tileTargetRsrcId = GuiResources::TILE_TARGET;
+  cfg.fieldCfg.debugFontRsrcId = GuiResources::VINQUE_RG;
 
-  if (SUCCESS != engine.init(engineCfg)) {
-    LOGERR("Error in engine.init() Terminating ...");
-    return FAILURE;
-  }
-  if (SUCCESS != engine.recover()) {
-    LOGERR("Error in engine.recover() Terminating ...");
-    return FAILURE;
-  }
-
-  return engine.start();
+  return cfg;
 }
 
 int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
-  int32_t err = SUCCESS;
+  const auto engineCfg = populateEngineConfig();
+  const auto guiCfg = populateGuiConfig();
 
-  //close default error stream. stdout stream will be used instead
-  fclose(stderr);
-
-  //used to measure engine init and total uptime
-  Time time;
-
-  //install user defined signal handlers
-  SignalHandler::installSignal(SIGSEGV);
-  SignalHandler::installSignal(SIGQUIT);
-
-  //open SDL libraries
-  if (SUCCESS != SDLLoader::init()) {
-    LOGERR("Error in SDLLoader::init() -> Terminating ...");
+  std::unique_ptr<Game> game = std::make_unique<Gui>();
+  Application app(std::move(game));
+  if (SUCCESS != app.init(engineCfg, guiCfg)) {
+    LOGERR("app.init() failed");
     return FAILURE;
-  } else {
-    LOGG("SDLLoader::init() took: %ld ms", time.getElapsed().toMilliseconds());
   }
 
-  /** Use additional method, because we want to explicitly
-   * call the engine destructor before main terminates
-   * (so proper SDL::deinit() could be called)
-   * */
-  if (SUCCESS == err) {
-    err = runApplication();
-    if (SUCCESS != err) {
-      LOGERR("Error, runApplication() failed");
-    }
-  }
-
-  //close SDL libraries
-  SDLLoader::deinit();
-
-  const auto upTimeSeconds = time.getElapsed().toSeconds();
-
-  LOGG("Exit error code: %d, Total engine uptime: "
-      "Hours: %ld, Minutes: %ld, Seconds: %ld",
-      err, upTimeSeconds / 3600, upTimeSeconds / 60, upTimeSeconds);
-
-  return err;
+  return app.run();
 }
 

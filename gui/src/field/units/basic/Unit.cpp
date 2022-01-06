@@ -1,16 +1,16 @@
 //Corresponding header
-#include "game/field/units/basic/Unit.h"
+#include "field/units/basic/Unit.h"
 
 //C system headers
 
 //C++ system headers
 
 //Other libraries headers
-
-//Own components headers
-#include "game/field/units/config/UnitConfig.hpp"
 #include "utils/ErrorCode.h"
 #include "utils/Log.h"
+
+//Own components headers
+#include "field/units/config/UnitConfig.h"
 
 int32_t Unit::init([[maybe_unused]]const UnitConfig &cfg) {
   return SUCCESS;

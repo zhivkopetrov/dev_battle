@@ -7,10 +7,10 @@
 #include <cstdint>
 
 //Other libraries headers
-
-//Own components headers
 #include "manager_utils/drawing/Image.h"
 #include "manager_utils/drawing/Text.h"
+
+//Own components headers
 
 //Forward declarations
 class SpriteBuffer;

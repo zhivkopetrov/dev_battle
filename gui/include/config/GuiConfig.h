@@ -1,5 +1,5 @@
-#ifndef GUI_GAMECONFIG_HPP_
-#define GUI_GAMECONFIG_HPP_
+#ifndef GUI_GUICONFIG_H_
+#define GUI_GUICONFIG_H_
 
 //C system headers
 
@@ -9,15 +9,15 @@
 //Other libraries headers
 
 //Own components headers
-#include "game/defines/GameDefines.h"
-#include "game/field/config/FieldConfig.hpp"
+#include "defines/GuiDefines.h"
+#include "field/config/FieldConfig.h"
 
 //Forward declarations
 
-struct GameConfig {
+struct GuiConfig {
   GameMode gameMode = GameMode::UNKNOWN;
   FieldConfig fieldCfg;
 };
 
-#endif /* GUI_GAMECONFIG_HPP_ */
+#endif /* GUI_GUICONFIG_H_ */
 

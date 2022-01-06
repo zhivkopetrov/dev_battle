@@ -1,5 +1,5 @@
-#ifndef GUI_GAMEDEFINES_H_
-#define GUI_GAMEDEFINES_H_
+#ifndef GUI_GUIDEFINES_H_
+#define GUI_GUIDEFINES_H_
 
 //C system headers
 
@@ -21,5 +21,5 @@ enum class GameMode {
 
 GameMode toGameMode(const int32_t mode);
 
-#endif /* GUI_GAMEDEFINES_H_ */
+#endif /* GUI_GUIDEFINES_H_ */
 

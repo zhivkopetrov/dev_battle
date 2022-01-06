@@ -1,5 +1,5 @@
-#ifndef GUI_FIELDCONFIG_HPP_
-#define GUI_FIELDCONFIG_HPP_
+#ifndef GUI_FIELDCONFIG_H_
+#define GUI_FIELDCONFIG_H_
 
 //C system headers
 
@@ -7,24 +7,24 @@
 #include <cstdint>
 
 //Other libraries headers
+#include "utils/drawing/Rectangle.h"
 
 //Own components headers
-#include "game/field/config/TileConfig.hpp"
-#include "utils/drawing/Rectangle.h"
+#include "field/config/TileConfig.h"
 
 //Forward declarations
 
 struct FieldConfig {
-  TileConfig tileConfig;
   Rectangle fieldDimensions;
   uint64_t tileSurfaceRsrcId = 0;
   uint64_t tileWholeRsrcId = 0;
   uint64_t tileTargetRsrcId = 0;
+  uint64_t debugFontRsrcId = 0;
   int32_t tileWidth = 0;
   int32_t tileHeight = 0;
   int32_t rows = 0;
   int32_t cols = 0;
 };
 
-#endif /* GUI_FIELDCONFIG_HPP_ */
+#endif /* GUI_FIELDCONFIG_H_ */
 
