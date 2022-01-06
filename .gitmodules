@@ -1,0 +1,21 @@
+[submodule "tools"]
+	path = tools
+	url = https://github.com/zhivkopetrov/tools.git
+[submodule "lib/utils"]
+	path = lib/utils
+	url = https://github.com/zhivkopetrov/utils.git
+[submodule "lib/sdl_utils"]
+	path = lib/sdl_utils
+	url = https://github.com/zhivkopetrov/sdl_utils.git
+[submodule "lib/manager_utils"]
+	path = lib/manager_utils
+	url = https://github.com/zhivkopetrov/manager_utils.git
+[submodule "lib/resource_utils"]
+	path = lib/resource_utils
+	url = https://github.com/zhivkopetrov/resource_utils.git
+[submodule "lib/game_engine"]
+	path = lib/game_engine
+	url = https://github.com/zhivkopetrov/game_engine.git
+[submodule "lib/cmake_helpers"]
+	path = lib/cmake_helpers
+	url = https://github.com/zhivkopetrov/cmake_helpers.git

@@ -40,14 +40,13 @@ set_target_visibility(${PROJECT_NAME})
 target_link_libraries(
     ${PROJECT_NAME} 
     PRIVATE
-        resource_utils
         manager_utils
 )
 
 target_include_directories(
     ${PROJECT_NAME} 
     PRIVATE
-        include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 #invoke include-what-you-use (if it's enabled) for the current project
