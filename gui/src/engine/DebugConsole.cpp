@@ -61,16 +61,17 @@ void DebugConsole::update(const DebugConsoleData &data) {
   }
   _updateCounter = UPDATE_SKIPS;
 
-  int64_t frames = MILLISECOND / data.elapsedTime;
-  if (frames > _maxFrames) {
-    frames = _maxFrames;
+  constexpr auto microsecondsInASecond = 1000000;
+  auto currFrames = microsecondsInASecond / data.elapsedMicroSeconds;
+  if (currFrames > _maxFrames) {
+    currFrames = _maxFrames;
   }
 
   std::string textStr;
   textStr.reserve(50);
 
   textStr = "FPS: ";
-  textStr.append(std::to_string(frames));
+  textStr.append(std::to_string(currFrames));
   _debugTexts[FPS_COUNTER].setText(textStr.c_str());
 
   textStr = "Active timers: ";

@@ -175,7 +175,7 @@ int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
   //close SDL libraries
   SDLLoader::deinit();
 
-  const auto upTimeSeconds = time.getElapsedFromStart().toSeconds();
+  const auto upTimeSeconds = time.getElapsed().toSeconds();
 
   LOGG("Exit error code: %d, Total engine uptime: "
       "Hours: %ld, Minutes: %ld, Seconds: %ld",

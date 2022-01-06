@@ -40,7 +40,7 @@ private:
 
   void onInitEnd(const EngineConfig &engineCfg);
 
-  void populateDebugConsole(const int64_t elapsedTime);
+  void populateDebugConsole(const int64_t elapsedMicroseconds);
 
   void limitFPS(const int64_t elapsedTime);
 

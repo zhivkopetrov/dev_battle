@@ -15,8 +15,8 @@
 class InputEvent;
 
 struct DebugConsoleData {
-  int64_t elapsedTime = 0;
-  int64_t activeTimers = 0;
+  int64_t elapsedMicroSeconds = 0;
+  uint64_t activeTimers = 0;
   uint64_t gpuMemoryUsage = 0;
   uint32_t activeWidgets = 0;
 };

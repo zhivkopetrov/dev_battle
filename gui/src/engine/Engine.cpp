@@ -68,13 +68,13 @@ void Engine::mainLoop() {
       return;
     }
 
-    const int64_t elapsedTime = fpsTime.getElapsed().toMicroseconds();
+    const int64_t elapsedMiscroSeconds = fpsTime.getElapsed().toMicroseconds();
     if (_debugConsole.isActive()) {
-      populateDebugConsole(elapsedTime);
+      populateDebugConsole(elapsedMiscroSeconds);
     }
 
 #if !ENABLE_VSYNC
-    limitFPS(elapsedTime);
+    limitFPS(elapsedMiscroSeconds);
 #endif //!ENABLE_VSYNC
   }
 }
@@ -137,24 +137,30 @@ void Engine::onInitEnd(const EngineConfig &engineCfg) {
   gTimerMgr->onInitEnd();
 }
 
-void Engine::populateDebugConsole(const int64_t elapsedTime) {
-  DebugConsoleData debugData;
-  debugData.elapsedTime = elapsedTime;
-  debugData.activeTimers = gTimerMgr->getActiveTimersCount();
-  debugData.activeWidgets = gDrawMgr->getTotalWidgetCount();
-  debugData.gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage();
+void Engine::populateDebugConsole(const int64_t elapsedMiscroSeconds) {
+  const DebugConsoleData debugData {
+    .elapsedMicroSeconds = elapsedMiscroSeconds,
+    .activeTimers = gTimerMgr->getActiveTimersCount(),
+    .gpuMemoryUsage = gRsrcMgr->getGPUMemoryUsage(),
+    .activeWidgets = gDrawMgr->getTotalWidgetCount(),
+  };
+
   _debugConsole.update(debugData);
 }
 
-void Engine::limitFPS(const int64_t elapsedTime) {
-  const int64_t maxMicosecsPerFrame =
-      MILLISECOND / gDrawMgr->getMaxFrameRate();
-  const int64_t fpsDelay = maxMicosecsPerFrame - elapsedTime;
+void Engine::limitFPS(const int64_t elapsedMicroseconds) {
+  constexpr auto microsecondsInASeconds = 1000000;
+  const auto maxMicrosecondsPerFrame = microsecondsInASeconds
+      / gDrawMgr->getMaxFrameRate();
 
-  if (0 > fpsDelay) {
+  const int64_t microSecondsFpsDelay = maxMicrosecondsPerFrame
+      - elapsedMicroseconds;
+
+  if (0 < microSecondsFpsDelay) {
     //Sleep the logic thread if max FPS is reached.
     //No need to struggle the CPU.
-    std::this_thread::sleep_for(std::chrono::microseconds(fpsDelay));
+    std::this_thread::sleep_for(
+        std::chrono::microseconds(microSecondsFpsDelay));
   }
 }
 
