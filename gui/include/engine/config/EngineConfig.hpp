@@ -10,7 +10,7 @@
 //Own components headers
 
 //Forward declarations
-#include "manager_utils/managers_base/config/ManagerHandlerConfig.hpp"
+#include "manager_utils/managers/config/ManagerHandlerConfig.hpp"
 #include "game/config/GameConfig.hpp"
 
 struct EngineConfig {

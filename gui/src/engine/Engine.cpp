@@ -12,9 +12,9 @@
 
 //Own components headers
 #include "engine/config/EngineConfig.hpp"
-#include "manager_utils/managers_base/DrawMgrBase.h"
-#include "manager_utils/managers_base//RsrcMgrBase.h"
-#include "manager_utils/managers_base//TimerMgrBase.h"
+#include "manager_utils/managers/DrawMgr.h"
+#include "manager_utils/managers/RsrcMgr.h"
+#include "manager_utils/managers/TimerMgr.h"
 #include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
@@ -64,7 +64,7 @@ void Engine::mainLoop() {
 
     if (processFrame()) {
       //user has requested exit -> break the main loop
-      gDrawMgrBase->shutdownRenderer();
+      gDrawMgr->shutdownRenderer();
       return;
     }
 
@@ -88,7 +88,7 @@ int32_t Engine::start() {
   std::thread engineThread = std::thread(&Engine::mainLoop, this);
 
   //enter rendering loop
-  gDrawMgrBase->startRenderingLoop();
+  gDrawMgr->startRenderingLoop();
 
   //sanity check
   if (engineThread.joinable()) {
@@ -115,7 +115,7 @@ bool Engine::processFrame() {
 }
 
 void Engine::drawFrame() {
-  gDrawMgrBase->clearScreen();
+  gDrawMgr->clearScreen();
 
   _game.draw();
 
@@ -123,7 +123,7 @@ void Engine::drawFrame() {
     _debugConsole.draw();
   }
 
-  gDrawMgrBase->finishFrame();
+  gDrawMgr->finishFrame();
 }
 
 void Engine::handleEvent() {
@@ -132,15 +132,15 @@ void Engine::handleEvent() {
 }
 
 void Engine::onInitEnd(const EngineConfig &engineCfg) {
-  gDrawMgrBase->setSDLContainers(gRsrcMgrBase);
-  gDrawMgrBase->setMaxFrameRate(engineCfg.maxFrameRate);
-  gTimerMgrBase->onInitEnd();
+  gDrawMgr->setSDLContainers(gRsrcMgr);
+  gDrawMgr->setMaxFrameRate(engineCfg.maxFrameRate);
+  gTimerMgr->onInitEnd();
 }
 
 void Engine::populateDebugConsole(const int64_t elapsedMiscroSeconds) {
   const DebugConsoleData debugData (elapsedMiscroSeconds,
-      gTimerMgrBase->getActiveTimersCount(), gRsrcMgrBase->getGPUMemoryUsage(),
-      gDrawMgrBase->getTotalWidgetCount());
+      gTimerMgr->getActiveTimersCount(), gRsrcMgr->getGPUMemoryUsage(),
+      gDrawMgr->getTotalWidgetCount());
 
   _debugConsole.update(debugData);
 }
@@ -148,7 +148,7 @@ void Engine::populateDebugConsole(const int64_t elapsedMiscroSeconds) {
 void Engine::limitFPS(const int64_t elapsedMicroseconds) {
   constexpr auto microsecondsInASeconds = 1000000;
   const auto maxMicrosecondsPerFrame = microsecondsInASeconds
-      / gDrawMgrBase->getMaxFrameRate();
+      / gDrawMgr->getMaxFrameRate();
 
   const int64_t microSecondsFpsDelay = maxMicrosecondsPerFrame
       - elapsedMicroseconds;

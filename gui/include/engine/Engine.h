@@ -9,7 +9,7 @@
 //Other libraries headers
 
 //Own components headers
-#include "manager_utils/managers_base/ManagerHandler.h"
+#include "manager_utils/managers/ManagerHandler.h"
 #include "sdl_utils/input/InputEvent.h"
 #include "game/Game.h"
 #include "engine/DebugConsole.h"
