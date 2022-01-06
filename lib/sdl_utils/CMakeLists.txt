@@ -2,16 +2,6 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
-if(TARGET sdl_utils)
-  return()
-endif()
-
-if(NOT CMAKE_HELPERS_INCLUDED)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
-    set(CMAKE_MODULE_PATH 
-      ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake_helpers/find_modules)
-endif()
-
 project(sdl_utils)
   
 set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/sdl_utils)         
@@ -108,7 +98,6 @@ endif()
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
-        utils
         resource_utils
     PRIVATE
         ${SDL2_LIBRARY}       # -lSDL2 flag

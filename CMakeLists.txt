@@ -6,7 +6,6 @@ project(dev_battle)
 include(${CMAKE_CURRENT_SOURCE_DIR}/lib/cmake_helpers/helpers.cmake)
 set(CMAKE_MODULE_PATH 
     ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/lib/cmake_helpers/find_modules)
-set(CMAKE_HELPERS_INCLUDED TRUE)
 
 # static libraries
 add_subdirectory(lib/utils)

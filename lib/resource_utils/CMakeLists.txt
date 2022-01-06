@@ -2,14 +2,6 @@
 
 cmake_minimum_required(VERSION 3.10.2)
 
-if(TARGET resource_utils)
-    return()
-endif()
-
-if(NOT CMAKE_HELPERS_INCLUDED)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake_helpers/helpers.cmake)
-endif()
-
 project(resource_utils)
    
 set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include/resource_utils)
@@ -38,7 +30,7 @@ add_library(
         ${_SRC_DIR}/structs/SoundData.cpp
 )
 
-set_target_cpp_standard(${PROJECT_NAME} 17)
+set_target_cpp_standard(${PROJECT_NAME} 20)
 enable_target_warnings(${PROJECT_NAME})
 set_target_visibility(${PROJECT_NAME})
 
@@ -53,10 +45,6 @@ target_include_directories(
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-
-if(NOT TARGET utils)
-    add_subdirectory(utils)
-endif()
 
 #Linker dependacies
 target_link_libraries(

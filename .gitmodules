@@ -16,3 +16,6 @@
 [submodule "resource_utils"]
 	path = resource_utils
 	url = https://github.com/zhivkopetrov/resource_utils.git
+[submodule "lib/game_engine"]
+	path = lib/game_engine
+	url = https://github.com/zhivkopetrov/game_engine.git
