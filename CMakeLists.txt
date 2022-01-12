@@ -23,7 +23,7 @@ add_subdirectory(${manager_utils_DIR})
 add_subdirectory(${game_engine_DIR})
 
 # tools
-add_subdirectory(tools)
+add_subdirectory(tools/resource_builder)
 
 # executables
 add_subdirectory(gui)
