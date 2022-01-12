@@ -64,6 +64,8 @@ static GuiConfig populateGuiConfig() {
   return cfg;
 }
 
+#include <iostream>
+
 int32_t main([[maybe_unused]]int32_t argc, [[maybe_unused]]char *args[]) {
   const auto engineCfg = populateEngineConfig();
   const auto guiCfg = populateGuiConfig();
