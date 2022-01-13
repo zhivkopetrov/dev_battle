@@ -28,4 +28,4 @@ add_subdirectory(${game_engine_DIR})
 add_subdirectory(${resource_builder_DIR})
 
 # executables
-add_subdirectory(gui)
+add_subdirectory(dev_battle_gui)
