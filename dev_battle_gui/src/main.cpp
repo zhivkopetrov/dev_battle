@@ -43,8 +43,6 @@ static EngineConfig populateEngineConfig() {
   auto cfg = getDefaultEngineConfig(
       projectInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
 
-  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.loadingScreenUsage =
-      LoadingScreenUsage::ENABLED;
   cfg.debugConsoleRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
