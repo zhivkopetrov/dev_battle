@@ -13,14 +13,12 @@
 //Own components headers
 #include "dev_battle_gui/DevBattleGui.h"
 #include "dev_battle_gui/config/GuiConfig.h"
-#include "dev_battle_gui/resources/GuiResources.h"
+#include "generated/DevBattleGuiResources.h"
 
 namespace {
 //TODO parse the params from config
 constexpr auto PROJECT_FOLDER_NAME = "dev_battle_gui";
-constexpr auto LOADING_SCREEN_RESOURCES_PATH =
-    "gui/include/gui/resources/p/loading_screen/";
-constexpr auto PROJECT_RESOURCE_BINS_PATH = "share/bins/share/resources/";
+constexpr auto LOADING_SCREEN_RESOURCES_PATH = "p/loading_screen/";
 
 //game field tiles
 constexpr auto TILE_WIDTH = 78;
@@ -40,12 +38,14 @@ constexpr auto GAME_FIELD_HEIGHT =
 }
 
 static EngineConfig populateEngineConfig() {
-  auto cfg = getDefaultEngineConfig(
+  const auto projectInstallPrefix =
+      FileSystemUtils::getCurrentWorkingDirectory();
+  auto cfg = getDefaultEngineConfig(projectInstallPrefix,
       PROJECT_FOLDER_NAME, LOADING_SCREEN_RESOURCES_PATH);
-  cfg.managerHandlerCfg.sdlContainersCfg.resourcesBinLocation =
-      FileSystemUtils::getCurrentWorkingDirectory() +
-      "/" + PROJECT_FOLDER_NAME + "/" + PROJECT_RESOURCE_BINS_PATH;
-  cfg.debugConsoleRsrcId = GuiResources::VINQUE_RG;
+
+  cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.loadingScreenUsage =
+      LoadingScreenUsage::ENABLED;
+  cfg.debugConsoleRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
 }
@@ -60,10 +60,10 @@ static GuiConfig populateGuiConfig() {
       GAME_FIELD_START_Y, GAME_FIELD_WIDTH, GAME_FIELD_HEIGHT };
   cfg.fieldCfg.tileWidth = TILE_WIDTH;
   cfg.fieldCfg.tileHeight = TILE_HEIGHT;
-  cfg.fieldCfg.tileSurfaceRsrcId = GuiResources::TILE_SURFACE;
-  cfg.fieldCfg.tileWholeRsrcId = GuiResources::TILE_WHOLE;
-  cfg.fieldCfg.tileTargetRsrcId = GuiResources::TILE_TARGET;
-  cfg.fieldCfg.debugFontRsrcId = GuiResources::VINQUE_RG;
+  cfg.fieldCfg.tileSurfaceRsrcId = DevBattleGuiResources::TILE_SURFACE;
+  cfg.fieldCfg.tileWholeRsrcId = DevBattleGuiResources::TILE_WHOLE;
+  cfg.fieldCfg.tileTargetRsrcId = DevBattleGuiResources::TILE_TARGET;
+  cfg.fieldCfg.debugFontRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
 }

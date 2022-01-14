@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project(dev_battle_gui)
 
 set(_INC_FOLDER_NAME include)
+set(_RESOURCE_FOLDER_NAME resources)
 set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${_INC_FOLDER_NAME}/${PROJECT_NAME})
 set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
    
@@ -31,8 +32,14 @@ add_executable(
 target_include_directories(
     ${PROJECT_NAME} 
     PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${_INC_FOLDER_NAME}>
-        $<INSTALL_INTERFACE:${_INC_FOLDER_NAME}>
+        $<BUILD_INTERFACE:
+            ${CMAKE_CURRENT_SOURCE_DIR}/${_INC_FOLDER_NAME}
+            ${CMAKE_CURRENT_SOURCE_DIR}/${_RESOURCE_FOLDER_NAME}
+        >
+        $<INSTALL_INTERFACE:
+            ${_INC_FOLDER_NAME}
+            ${_RESOURCE_FOLDER_NAME}
+        >
 )
 
 target_link_libraries(
@@ -46,12 +53,11 @@ enable_target_warnings(${PROJECT_NAME})
 set_target_visibility(${PROJECT_NAME})
 #enable_target_sanitizer(${PROJECT_NAME} "memory")
 
+# Install resources and auto-generated headers and resource bin filles
 install(
-    DIRECTORY share
-    DESTINATION ${PROJECT_NAME}/bazinga
-#     FILES_MATCHING PATTERN "*.bin"
+    DIRECTORY ${_RESOURCE_FOLDER_NAME}/
+    DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
 )
-
 #invoke include-what-you-use (if it's enabled) for the current project
 if(USE_IWYU)
     enable_target_include_what_you_use(${PROJECT_NAME})
