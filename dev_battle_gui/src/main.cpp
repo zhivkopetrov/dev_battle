@@ -39,9 +39,9 @@ constexpr auto GAME_FIELD_HEIGHT =
 
 static EngineConfig populateEngineConfig() {
   const auto projectInstallPrefix =
-      FileSystemUtils::getCurrentWorkingDirectory();
-  auto cfg = getDefaultEngineConfig(projectInstallPrefix,
-      PROJECT_FOLDER_NAME, LOADING_SCREEN_RESOURCES_PATH);
+      FileSystemUtils::getCurrentWorkingDirectory() + "/" + PROJECT_FOLDER_NAME;
+  auto cfg = getDefaultEngineConfig(
+      projectInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
 
   cfg.managerHandlerCfg.sdlContainersCfg.loadingScreenCfg.loadingScreenUsage =
       LoadingScreenUsage::ENABLED;
