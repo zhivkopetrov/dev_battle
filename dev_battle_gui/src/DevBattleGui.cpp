@@ -32,7 +32,7 @@ void DevBattleGui::deinit() {
 
 }
 
-void DevBattleGui::draw() {
+void DevBattleGui::draw() const {
   _field.draw();
 }
 

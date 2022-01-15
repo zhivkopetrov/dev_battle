@@ -41,7 +41,7 @@ void Tile::draw() {
   _debugText.draw();
 }
 
-void Tile::drawOnSpriteBuffer(SpriteBuffer &spriteBuffer) {
+void Tile::drawOnSpriteBuffer(SpriteBuffer &spriteBuffer) const {
   spriteBuffer.addWidget(_tileImg);
   spriteBuffer.addWidget(_debugText);
 }

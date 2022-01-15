@@ -20,7 +20,7 @@ public:
   int32_t init(const std::any& cfg) override;
   void deinit() override;
 
-  void draw() override;
+  void draw() const override;
   void handleEvent(const InputEvent &e) override;
 
 private:

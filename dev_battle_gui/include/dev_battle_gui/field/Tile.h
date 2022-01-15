@@ -23,7 +23,7 @@ public:
 
   void draw();
 
-  void drawOnSpriteBuffer(SpriteBuffer &spriteBuffer);
+  void drawOnSpriteBuffer(SpriteBuffer &spriteBuffer) const;
 
 private:
   Image _tileImg;

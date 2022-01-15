@@ -68,15 +68,15 @@ void Field::handleEvent([[maybe_unused]]const InputEvent &e) {
 
 }
 
-void Field::draw() {
+void Field::draw() const {
   _fieldSB.draw();
 }
 
 void Field::updateFieldSpriteBuffer() {
   _fieldSB.unlock();
   _fieldSB.reset();
-  for (auto & row : _tiles) {
-    for (auto &tile : row) {
+  for (const auto & row : _tiles) {
+    for (const auto &tile : row) {
       tile.drawOnSpriteBuffer(_fieldSB);
     }
   }

@@ -23,7 +23,7 @@ public:
 
   void handleEvent(const InputEvent &e);
 
-  void draw();
+  void draw() const;
 
   void updateFieldSpriteBuffer();
 
