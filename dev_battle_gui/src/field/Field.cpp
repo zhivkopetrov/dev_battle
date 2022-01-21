@@ -58,8 +58,8 @@ int32_t Field::init(const FieldConfig &cfg) {
     }
   }
 
-  _fieldSB.create(cfg.fieldDimensions);
-  updateFieldSpriteBuffer();
+  _fieldFbo.create(cfg.fieldDimensions);
+  updateFieldFbo();
 
   return SUCCESS;
 }
@@ -69,18 +69,18 @@ void Field::handleEvent([[maybe_unused]]const InputEvent &e) {
 }
 
 void Field::draw() const {
-  _fieldSB.draw();
+  _fieldFbo.draw();
 }
 
-void Field::updateFieldSpriteBuffer() {
-  _fieldSB.unlock();
-  _fieldSB.reset();
+void Field::updateFieldFbo() {
+  _fieldFbo.unlock();
+  _fieldFbo.reset();
   for (const auto & row : _tiles) {
     for (const auto &tile : row) {
-      tile.drawOnSpriteBuffer(_fieldSB);
+      tile.drawOnFbo(_fieldFbo);
     }
   }
-  _fieldSB.update();
-  _fieldSB.lock();
+  _fieldFbo.update();
+  _fieldFbo.lock();
 }
 

@@ -8,7 +8,7 @@
 #include <vector>
 
 //Other libraries headers
-#include "manager_utils/drawing/SpriteBuffer.h"
+#include "manager_utils/drawing/Fbo.h"
 
 //Own components headers
 #include "dev_battle_gui/field/Tile.h"
@@ -25,12 +25,12 @@ public:
 
   void draw() const;
 
-  void updateFieldSpriteBuffer();
+  void updateFieldFbo();
 
   std::vector<std::vector<Tile>> _tiles;
   Image _tileTargetImg;
 
-  SpriteBuffer _fieldSB;
+  Fbo _fieldFbo;
 };
 
 #endif /* DEV_BATTLE_GUI_FIELD_H_ */
