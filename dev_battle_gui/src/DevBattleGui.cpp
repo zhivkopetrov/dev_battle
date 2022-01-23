@@ -12,17 +12,16 @@
 //Own components headers
 #include "dev_battle_gui/config/GuiConfig.h"
 
-int32_t DevBattleGui::init(const std::any& cfg) {
+int32_t DevBattleGui::init(const std::any &cfg) {
   try {
-      const auto& gameCfg = std::any_cast<const GuiConfig&>(cfg);
-      if (SUCCESS != _field.init(gameCfg.fieldCfg)) {
-        LOGERR("Error in _field.init()");
-        return FAILURE;
-      }
-  }
-  catch(const std::bad_any_cast& e) {
-      LOGERR("std::any_cast<GuiConfig&> failed, %s", e.what());
+    const auto &gameCfg = std::any_cast<const GuiConfig&>(cfg);
+    if (SUCCESS != _field.init(gameCfg.fieldCfg)) {
+      LOGERR("Error in _field.init()");
       return FAILURE;
+    }
+  } catch (const std::bad_any_cast &e) {
+    LOGERR("std::any_cast<GuiConfig&> failed, %s", e.what());
+    return FAILURE;
   }
 
   return SUCCESS;
@@ -38,5 +37,9 @@ void DevBattleGui::draw() const {
 
 void DevBattleGui::handleEvent(const InputEvent &e) {
   _field.handleEvent(e);
+}
+
+void DevBattleGui::process() {
+
 }
 
