@@ -13,6 +13,7 @@ add_executable(
     ${PROJECT_NAME} 
         ${_INC_DIR}/DevBattleGui.h
         ${_INC_DIR}/config/GuiConfig.h
+        ${_INC_DIR}/config/GuiConfigGenerator.h
         ${_INC_DIR}/defines/GuiDefines.h
         ${_INC_DIR}/field/Field.h
         ${_INC_DIR}/field/Tile.h
@@ -24,6 +25,7 @@ add_executable(
         ${_SRC_DIR}/main.cpp
         ${_SRC_DIR}/DevBattleGui.cpp
         ${_SRC_DIR}/defines/GuiDefines.cpp
+        ${_SRC_DIR}/config/GuiConfigGenerator.cpp
         ${_SRC_DIR}/field/Field.cpp
         ${_SRC_DIR}/field/Tile.cpp
         ${_SRC_DIR}/field/units/basic/Unit.cpp
