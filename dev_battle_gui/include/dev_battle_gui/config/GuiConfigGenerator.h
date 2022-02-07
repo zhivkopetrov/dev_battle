@@ -7,7 +7,7 @@
 #include <cstdint>
 
 //Other libraries headers
-#include "game_engine/engine/config/EngineConfig.h"
+#include "game_engine/config/ApplicationConfig.h"
 
 //Own components headers
 #include "dev_battle_gui/config/GuiConfig.h"
@@ -18,8 +18,10 @@ class GuiConfigGenerator {
 public:
   GuiConfigGenerator() = delete;
 
-  static EngineConfig generateEngineConfig();
-  static GuiConfig generateGameConfig();
+  static std::vector<DependencyDescription> generateDependencies(int32_t argc,
+                                                                 char **args);
+
+  static ApplicationConfig generateConfig();
 };
 
 #endif /* DEV_BATTLE_GUI_INCLUDE_DEV_BATTLE_GUI_CONFIG_GUICONFIGGENERATOR_H_ */

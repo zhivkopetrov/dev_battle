@@ -32,9 +32,8 @@ constexpr auto GAME_FIELD_WIDTH =
     (GAME_FIELD_COLS * TILE_WIDTH) + (TILE_WIDTH / 2);
 constexpr auto GAME_FIELD_HEIGHT =
     (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
-}
 
-EngineConfig GuiConfigGenerator::generateEngineConfig() {
+EngineConfig generateEngineConfig() {
   const auto projectInstallPrefix =
       FileSystemUtils::getCurrentWorkingDirectory() + "/" + PROJECT_FOLDER_NAME;
   auto cfg = getDefaultEngineConfig(
@@ -45,7 +44,7 @@ EngineConfig GuiConfigGenerator::generateEngineConfig() {
   return cfg;
 }
 
-GuiConfig GuiConfigGenerator::generateGameConfig() {
+GuiConfig generateGameConfig() {
   GuiConfig cfg;
 
   cfg.gameMode = GAME_MODE;
@@ -63,3 +62,19 @@ GuiConfig GuiConfigGenerator::generateGameConfig() {
   return cfg;
 }
 
+}//end anonymous namespace
+
+std::vector<DependencyDescription> GuiConfigGenerator::generateDependencies(
+    int32_t argc, char **args) {
+  std::vector<DependencyDescription> dependecies =
+      getDefaultEngineDependencies(argc, args);
+
+  return dependecies;
+}
+
+ApplicationConfig GuiConfigGenerator::generateConfig() {
+  ApplicationConfig cfg;
+  cfg.engineCfg = generateEngineConfig();
+  cfg.gameCfg = generateGameConfig();
+  return cfg;
+}
