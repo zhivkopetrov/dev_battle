@@ -1,9 +1,7 @@
 #ifndef DEV_BATTLE_GUI_GUICONFIG_H_
 #define DEV_BATTLE_GUI_GUICONFIG_H_
 
-//C system headers
-
-//C++ system headers
+//Ssystem headers
 #include <cstdint>
 
 //Other libraries headers

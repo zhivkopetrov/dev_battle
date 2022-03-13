@@ -1,9 +1,7 @@
 #ifndef DEV_BATTLE_GUI_UNITCONFIG_H_
 #define DEV_BATTLE_GUI_UNITCONFIG_H_
 
-//C system headers
-
-//C++ system headers
+//System headers
 #include <cstdint>
 #include <vector>
 

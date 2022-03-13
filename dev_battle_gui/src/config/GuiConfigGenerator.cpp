@@ -1,9 +1,7 @@
 //Corresponding header
 #include "dev_battle_gui/config/GuiConfigGenerator.h"
 
-//C system headers
-
-//C++ system headers
+//System headers
 
 //Other libraries headers
 #include "resource_utils/common/ResourceFileHeader.h"

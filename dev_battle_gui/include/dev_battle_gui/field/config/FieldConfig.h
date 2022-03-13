@@ -1,9 +1,7 @@
 #ifndef DEV_BATTLE_GUI_FIELDCONFIG_H_
 #define DEV_BATTLE_GUI_FIELDCONFIG_H_
 
-//C system headers
-
-//C++ system headers
+//System headers
 #include <cstdint>
 
 //Other libraries headers

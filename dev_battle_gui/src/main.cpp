@@ -1,6 +1,4 @@
-//C system headers
-
-//C++ system headers
+//System headers
 #include <cstdint>
 
 //Other libraries headers
@@ -17,20 +15,25 @@ int32_t main(int32_t argc, char **args) {
 
   const auto dependencies =
       GuiConfigGenerator::generateDependencies(argc, args);
-  if (SUCCESS != app.loadDependencies(dependencies)) {
+  if (ErrorCode::SUCCESS != app.loadDependencies(dependencies)) {
     LOGERR("app.loadDependencies() failed");
-    return FAILURE;
+    return EXIT_FAILURE;
   }
 
   auto game = std::make_unique<DevBattleGui>();
   app.obtain(std::move(game));
 
   const auto cfg = GuiConfigGenerator::generateConfig();
-  if (SUCCESS != app.init(cfg)) {
+  if (ErrorCode::SUCCESS != app.init(cfg)) {
     LOGERR("app.init() failed");
-    return FAILURE;
+    return EXIT_FAILURE;
   }
 
-  return app.run();
+  if (ErrorCode::SUCCESS != app.run()) {
+    LOGERR("app.run() failed");
+    return EXIT_FAILURE;
+  }
+
+  return EXIT_SUCCESS;
 }
 

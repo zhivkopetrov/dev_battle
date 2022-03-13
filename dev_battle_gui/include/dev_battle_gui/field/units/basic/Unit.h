@@ -1,13 +1,12 @@
 #ifndef DEV_BATTLE_GUI_UNIT_H_
 #define DEV_BATTLE_GUI_UNIT_H_
 
-//C system headers
-
-//C++ system headers
+//System headers
 #include <cstdint>
 
 //Other libraries headers
 #include "manager_utils/drawing/Image.h"
+#include "utils/ErrorCode.h"
 
 //Own components headers
 
@@ -17,7 +16,7 @@ struct UnitConfig;
 
 class Unit {
 public:
-  int32_t init(const UnitConfig &cfg);
+  ErrorCode init(const UnitConfig &cfg);
 
   void handleEvent(const InputEvent &e);
 

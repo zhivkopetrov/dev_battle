@@ -1,9 +1,7 @@
 //Corresponding header
 #include "dev_battle_gui/defines/GuiDefines.h"
 
-//C system headers
-
-//C++ system headers
+//System headers
 
 //Other libraries headers
 #include "utils/data_type/EnumClassUtils.h"

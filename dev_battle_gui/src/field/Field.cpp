@@ -1,12 +1,9 @@
 //Corresponding header
 #include "dev_battle_gui/field/Field.h"
 
-//C system headers
-
-//C++ system headers
+//System headers
 
 //Other libraries headers
-#include "utils/ErrorCode.h"
 #include "utils/Log.h"
 
 //Own components headers
@@ -25,11 +22,11 @@ static Point getTileCoordinate(const int32_t row, const int32_t col,
   return Point(colOffset + col * tileWidth, (row * tileHeight) - rowOffset);
 }
 
-int32_t Field::init(const FieldConfig &cfg) {
+ErrorCode Field::init(const FieldConfig &cfg) {
   if (0 >= cfg.rows || 0 >= cfg.cols) {
     LOGERR("Invalid configuration, rows: %d, cols: %d. Both 'rows' and 'cols' "
         "needs to be positive number", cfg.rows, cfg.cols);
-    return FAILURE;
+    return ErrorCode::FAILURE;
   }
 
   TileConfig tileConfig;
@@ -51,9 +48,9 @@ int32_t Field::init(const FieldConfig &cfg) {
       //apply field offset
       tileConfig.screenCoordinates.x += cfg.fieldDimensions.x;
       tileConfig.screenCoordinates.y += cfg.fieldDimensions.y;
-      if (SUCCESS != _tiles[row][col].init(tileConfig)) {
+      if (ErrorCode::SUCCESS != _tiles[row][col].init(tileConfig)) {
         LOGERR("_tiles[%d][%d].init() failed", row, col);
-        return FAILURE;
+        return ErrorCode::FAILURE;
       }
     }
   }
@@ -61,7 +58,7 @@ int32_t Field::init(const FieldConfig &cfg) {
   _fieldFbo.create(cfg.fieldDimensions);
   updateFieldFbo();
 
-  return SUCCESS;
+  return ErrorCode::SUCCESS;
 }
 
 void Field::handleEvent([[maybe_unused]]const InputEvent &e) {

@@ -1,9 +1,7 @@
 #ifndef DEV_BATTLE_GUI_GUI_H_
 #define DEV_BATTLE_GUI_GUI_H_
 
-//C system headers
-
-//C++ system headers
+//System headers
 #include <cstdint>
 
 //Other libraries headers
@@ -17,7 +15,7 @@ class InputEvent;
 
 class DevBattleGui final : public Game {
 public:
-  int32_t init(const std::any& cfg) override;
+  ErrorCode init(const std::any& cfg) override;
   void deinit() override;
 
   void draw() const override;

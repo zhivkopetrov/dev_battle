@@ -1,14 +1,11 @@
 //Corresponding header
 #include "dev_battle_gui/field/Tile.h"
 
-//C system headers
-
-//C++ system headers
+//System headers
 #include <string>
 
 //Other libraries headers
 #include "manager_utils/drawing/Fbo.h"
-#include "utils/ErrorCode.h"
 
 //Own components headers
 #include "dev_battle_gui/field/config/TileConfig.h"
@@ -18,7 +15,7 @@ constexpr auto DEBUG_TEXT_OFFSET_X = 1;
 constexpr auto DEBUG_TEXT_OFFSET_Y = 13;
 }
 
-int32_t Tile::init(const TileConfig &cfg) {
+ErrorCode Tile::init(const TileConfig &cfg) {
   _tileImg.create(cfg.tileRsrcId);
   _tileImg.setPosition(cfg.screenCoordinates);
 
@@ -33,7 +30,7 @@ int32_t Tile::init(const TileConfig &cfg) {
   static int32_t frame = 0;
   _tileImg.setFrame(frame++ % 4);
 
-  return SUCCESS;
+  return ErrorCode::SUCCESS;
 }
 
 void Tile::draw() {
