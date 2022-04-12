@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(dev_battle_gui)
 
+find_package(cmake_helpers REQUIRED)
+find_package(game_engine REQUIRED)
+
 set(_INC_FOLDER_NAME include)
 set(_RESOURCE_FOLDER_NAME resources)
 set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${_INC_FOLDER_NAME}/${PROJECT_NAME})
@@ -55,7 +58,7 @@ enable_target_warnings(${PROJECT_NAME})
 set_target_visibility(${PROJECT_NAME})
 #enable_target_sanitizer(${PROJECT_NAME} "memory")
 
-# Install resources and auto-generated headers and resource bin filles
+# Install resources and auto-generated headers and resource bin files
 install(
     DIRECTORY ${_RESOURCE_FOLDER_NAME}/
     DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
