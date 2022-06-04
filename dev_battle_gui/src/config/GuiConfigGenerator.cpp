@@ -37,7 +37,7 @@ EngineConfig generateEngineConfig() {
   auto cfg = getDefaultEngineConfig(
       projectInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
 
-  cfg.debugConsoleRsrcId = DevBattleGuiResources::VINQUE_RG;
+  cfg.debugConsoleConfig.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
 }
