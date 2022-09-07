@@ -71,15 +71,15 @@ endif(USE_IWYU)
 #generate symbolic link for resourceBuilder after build is ready
 #also add the -f (--force) command in order to
 #override the existing symbolic link (if any)
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND
-    ln -sf ${PROJECT_NAME}/${PROJECT_NAME} guiSymLink)
+#add_custom_command(
+#    TARGET ${PROJECT_NAME} POST_BUILD
+#    COMMAND
+#    ln -sf ${PROJECT_NAME}/${PROJECT_NAME} guiSymLink)
            
 #move symbolic link to project build directory
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND
-    mv guiSymLink ${CMAKE_SOURCE_DIR}/build/gui)
+#add_custom_command(
+#    TARGET ${PROJECT_NAME} POST_BUILD
+#    COMMAND
+#    mv guiSymLink ${CMAKE_SOURCE_DIR}/build/gui)
     
     
