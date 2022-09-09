@@ -49,6 +49,6 @@ SDL2_image --> SDL2_dynamic_libs
 SDL2_ttf --> SDL2_dynamic_libs
 SDL2_mixer --> SDL2_dynamic_libs
 
-SDL2_dynamic_libs --> sdl_utils
+SDL2_dynamic_libs --> sdl_utils : private\ndependency
 
 @enduml
