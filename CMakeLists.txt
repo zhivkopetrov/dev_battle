@@ -8,7 +8,7 @@ if(EMSCRIPTEN)
   set(ASSETS "--preload-file ${CMAKE_INSTALL_PREFIX}/dev_battle_gui/resources")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} ")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} ${ASSETS} -s ASYNCIFY")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} ${ASSETS} -s ASYNCIFY -s ASSERTIONS=1")
   set(CMAKE_EXECUTABLE_SUFFIX .html)
 endif()
 
@@ -21,7 +21,15 @@ set(resource_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/resource_utils)
 set(sdl_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/sdl_utils)
 set(manager_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/manager_utils)
 set(game_engine_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/game_engine)
-set(resource_builder_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools/resource_builder)
+
+if(ASSET_BUILD)
+  message("ASSET BUILD")
+  add_subdirectory(${cmake_helpers_DIR})
+  add_subdirectory(${utils_DIR})
+  add_subdirectory(${resource_utils_DIR})
+  add_subdirectory(tools)
+  return()
+endif()
 
 # static libraries
 add_subdirectory(${cmake_helpers_DIR})
@@ -30,11 +38,6 @@ add_subdirectory(${resource_utils_DIR})
 add_subdirectory(${sdl_utils_DIR})
 add_subdirectory(${manager_utils_DIR})
 add_subdirectory(${game_engine_DIR})
-
-# tools
-if(NOT EMSCRIPTEN)
-  add_subdirectory(${resource_builder_DIR})
-endif()
 
 # executables
 add_subdirectory(dev_battle_gui)
