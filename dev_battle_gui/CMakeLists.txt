@@ -63,10 +63,18 @@ install(
     DIRECTORY ${_RESOURCE_FOLDER_NAME}/
     DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
 )
+
 #invoke include-what-you-use (if it's enabled) for the current project
 if(USE_IWYU)
     enable_target_include_what_you_use(${PROJECT_NAME})
 endif(USE_IWYU)
+
+# used in source to locate absolute path to project
+target_compile_definitions(
+    ${PROJECT_NAME} 
+        PRIVATE 
+            PROJECT_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}"
+)
 
 #generate symbolic link for resourceBuilder after build is ready
 #also add the -f (--force) command in order to

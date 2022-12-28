@@ -32,10 +32,13 @@ constexpr auto GAME_FIELD_HEIGHT =
     (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
 
 EngineConfig generateEngineConfig() {
-  const auto projectInstallPrefix =
-      FileSystemUtils::getCurrentWorkingDirectory() + "/" + PROJECT_FOLDER_NAME;
+  // defined in dev_battle_gui CMakeLists.txt
+  const std::string projectInstallPrefix = PROJECT_INSTALL_PREFIX;
+  const auto devBattleGuiInstallPrefix =
+      projectInstallPrefix + "/" + PROJECT_FOLDER_NAME;
+
   auto cfg = getDefaultEngineConfig(
-      projectInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
+    devBattleGuiInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
 
   cfg.debugConsoleConfig.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
 
