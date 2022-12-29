@@ -11,11 +11,19 @@ if(EMSCRIPTEN)
         -s USE_SDL_IMAGE=2 \
         -s SDL2_IMAGE_FORMATS='[png, jpg]' \
     ")
+    
+    set(PTHREAD_FLAGS "-s USE_PTHREADS=1")
+    set(PTHREAD_LINKER_FLAGS "\
+        -s USE_PTHREADS=1 \
+        -s PTHREAD_POOL_SIZE=navigator.hardwareConcurrency \
+        -s PROXY_TO_PTHREAD \
+    ")
+
     set(ASSETS "--preload-file ${CMAKE_INSTALL_PREFIX}/dev_battle_gui/resources")
-    set(LINKER_FLAGS "${ASSETS} -s ASYNCIFY=1")
+    set(LINKER_FLAGS "${ASSETS} ${PTHREAD_LINKER_FLAGS} -s ASYNCIFY=1")
 
     set(CMAKE_CXX_FLAGS 
-        "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_PORTS}")
+        "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_PORTS} ${PTHREAD_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS 
         "${CMAKE_EXE_LINKER_FLAGS} ${EMSCRIPTEN_PORTS} ${LINKER_FLAGS}")
     set(CMAKE_EXECUTABLE_SUFFIX .html)
