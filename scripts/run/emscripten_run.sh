@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT_NAME=`basename "$0"`
+echo "Processing $SCRIPT_NAME"
+
 BUILD_DIR=build-em
 EMSDK_DIR=workspace/emsdk
 

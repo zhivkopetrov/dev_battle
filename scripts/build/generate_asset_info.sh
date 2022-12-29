@@ -1,9 +1,26 @@
 #!/bin/bash
 
-BUILD_DIR=build
+SCRIPT_NAME=`basename "$0"`
+echo "Processing $SCRIPT_NAME"
 
-cmake -S . -B build \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
+if [ -z "$1" ]; then
+    echo "No argument supplied for BUILD_DIR. Assuming 'build'"
+    BUILD_DIR=build
+else
+    BUILD_DIR=$1
+    echo "Using BUILD_DIR=$BUILD_DIR"
+fi
+
+if [ -z "$2" ]; then
+    echo "No argument supplied for ASSET_INSTALL_DIR. Assuming '$BUILD_DIR'"
+    ASSET_INSTALL_DIR=$BUILD_DIR
+else
+    ASSET_INSTALL_DIR=$2
+    echo "Using ASSET_INSTALL_DIR=$ASSET_INSTALL_DIR"
+fi
+
+cmake -S . -B $BUILD_DIR \
+    -DCMAKE_INSTALL_PREFIX=$ASSET_INSTALL_DIR \
     -DCMAKE_BUILD_TYPE=Debug \
     -DASSET_BUILD=1 2>&1
 

@@ -4,14 +4,25 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project(dev_battle_gui)
 
+set(_RESOURCE_FOLDER_NAME resources)
+
+if(ASSET_BUILD)
+    # Install resources and auto-generated headers and resource bin files
+    install(
+        DIRECTORY ${_RESOURCE_FOLDER_NAME}/
+        DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
+    )
+
+    return()
+endif()
+
 find_package(cmake_helpers REQUIRED)
 find_package(game_engine REQUIRED)
 
 set(_INC_FOLDER_NAME include)
-set(_RESOURCE_FOLDER_NAME resources)
 set(_INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${_INC_FOLDER_NAME}/${PROJECT_NAME})
 set(_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-   
+
 add_executable(
     ${PROJECT_NAME} 
         ${_INC_DIR}/DevBattleGui.h
@@ -57,12 +68,6 @@ set_target_cpp_standard(${PROJECT_NAME} 20)
 enable_target_warnings(${PROJECT_NAME})
 set_target_visibility(${PROJECT_NAME})
 #enable_target_sanitizer(${PROJECT_NAME} "memory")
-
-# Install resources and auto-generated headers and resource bin files
-install(
-    DIRECTORY ${_RESOURCE_FOLDER_NAME}/
-    DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
-)
 
 #invoke include-what-you-use (if it's enabled) for the current project
 if(USE_IWYU)

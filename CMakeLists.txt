@@ -8,7 +8,7 @@ if(EMSCRIPTEN)
   set(ASSETS "--preload-file ${CMAKE_INSTALL_PREFIX}/dev_battle_gui/resources")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} ")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} ${ASSETS} -s ASYNCIFY=1")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} ${ASSETS} -s ASYNCIFY=1 -s")
   set(CMAKE_EXECUTABLE_SUFFIX .html)
 endif()
 
@@ -27,6 +27,9 @@ if(ASSET_BUILD)
   add_subdirectory(${utils_DIR})
   add_subdirectory(${resource_utils_DIR})
   add_subdirectory(tools)
+
+  # partially process the executable to install it's assets
+  add_subdirectory(dev_battle_gui)
   return()
 endif()
 
