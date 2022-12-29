@@ -4,12 +4,21 @@ cmake_minimum_required(VERSION 3.10.2)
 project(dev_battle)
 
 if(EMSCRIPTEN)
-  set(USE_FLAGS "-s USE_SDL=2 -s USE_SDL_TTF=2 -s USE_SDL_MIXER=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS='[png, jpg]'")
-  set(ASSETS "--preload-file ${CMAKE_INSTALL_PREFIX}/dev_battle_gui/resources")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS} ")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS} ${ASSETS} -s ASYNCIFY=1 -s")
-  set(CMAKE_EXECUTABLE_SUFFIX .html)
+    set(EMSCRIPTEN_PORTS "\
+        -s USE_SDL=2 \
+        -s USE_SDL_TTF=2 \
+        -s USE_SDL_MIXER=2 \
+        -s USE_SDL_IMAGE=2 \
+        -s SDL2_IMAGE_FORMATS='[png, jpg]' \
+    ")
+    set(ASSETS "--preload-file ${CMAKE_INSTALL_PREFIX}/dev_battle_gui/resources")
+    set(LINKER_FLAGS "${ASSETS} -s ASYNCIFY=1")
+
+    set(CMAKE_CXX_FLAGS 
+        "${CMAKE_CXX_FLAGS} ${EMSCRIPTEN_PORTS}")
+    set(CMAKE_EXE_LINKER_FLAGS 
+        "${CMAKE_EXE_LINKER_FLAGS} ${EMSCRIPTEN_PORTS} ${LINKER_FLAGS}")
+    set(CMAKE_EXECUTABLE_SUFFIX .html)
 endif()
 
 option(USE_IWYU "Should invoke Include-What-You-Use tool" FALSE)
@@ -23,14 +32,14 @@ set(manager_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/manager_utils)
 set(game_engine_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/game_engine)
 
 if(ASSET_BUILD)
-  add_subdirectory(${cmake_helpers_DIR})
-  add_subdirectory(${utils_DIR})
-  add_subdirectory(${resource_utils_DIR})
-  add_subdirectory(tools)
+    add_subdirectory(${cmake_helpers_DIR})
+    add_subdirectory(${utils_DIR})
+    add_subdirectory(${resource_utils_DIR})
+    add_subdirectory(tools)
 
-  # partially process the executable to install it's assets
-  add_subdirectory(dev_battle_gui)
-  return()
+    # partially process the executable to install it's assets
+    add_subdirectory(dev_battle_gui)
+    return()
 endif()
 
 # static libraries

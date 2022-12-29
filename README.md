@@ -4,7 +4,7 @@
 
 The project utilizes a personal 2D game_engine set of libraries.
 A highly-configurable thread-per-component approach is used.
-The project uses plain CMake.
+The project uses plain CMake and it optimized for fast compilation.
 
 ## Git submodules
 This repository has it's dependencies configured as git submodules.
