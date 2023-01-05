@@ -31,11 +31,14 @@ set(sdl_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/sdl_utils)
 set(manager_utils_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/manager_utils)
 set(game_engine_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/game_engine)
 
+# ROS1/ROS2 does not work with a nested CMake structurre
+set(resource_builder_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools/resource_builder)
+
 if(ASSET_BUILD)
     add_subdirectory(${cmake_helpers_DIR})
     add_subdirectory(${utils_DIR})
     add_subdirectory(${resource_utils_DIR})
-    add_subdirectory(tools)
+    add_subdirectory(${resource_builder_DIR})
 
     # partially process the executable to install it's assets
     add_subdirectory(dev_battle_gui)
