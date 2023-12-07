@@ -6,7 +6,16 @@ echo "Processing $SCRIPT_NAME"
 BUILD_DIR=build-em
 ASSET_BUILD_DIR=build
 ASSET_INSTALL_DIR=$BUILD_DIR
+CMAKE_BUILD_TYPE=Release
 EMSDK_DIR=workspace/emsdk
+
+if [ -z "$1" ]; then
+    echo "No argument supplied for CMAKE_BUILD_TYPE. Assuming '$CMAKE_BUILD_TYPE'"
+    BUILD_DIR=build
+else
+    CMAKE_BUILD_TYPE=$1
+    echo "Using CMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE"
+fi
 
 #build auto generated asset info
 bash ./scripts/build/generate_asset_info.sh \
@@ -23,7 +32,7 @@ source $HOME/$EMSDK_DIR/emsdk_env.sh
 #do full configuration
 emcmake cmake -S . -B $BUILD_DIR \
     -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
-    -DCMAKE_BUILD_TYPE=Debug \
+    -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE \
     -DASSET_BUILD=0 2>&1
 
 #do full build

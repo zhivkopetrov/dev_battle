@@ -1,6 +1,8 @@
 #!/bin/bash
 
 SCRIPT_NAME=`basename "$0"`
+BINARY_FOLDER=bin
+RESOURCE_BUILDER_BINARY=resource_builder
 echo "Processing $SCRIPT_NAME"
 
 if [ -z "$1" ]; then
@@ -24,6 +26,6 @@ cmake -S . -B $BUILD_DIR \
     -DCMAKE_BUILD_TYPE=Debug \
     -DASSET_BUILD=1 2>&1
 
-cmake --build $BUILD_DIR --target resource_builder -j 2>&1
+cmake --build $BUILD_DIR --target $RESOURCE_BUILDER_BINARY -j 2>&1
 
-$BUILD_DIR/tools/resource_builder/resource_builder dev_battle_gui 2>&1
+$BUILD_DIR/$BINARY_FOLDER/$RESOURCE_BUILDER_BINARY dev_battle_gui 2>&1
