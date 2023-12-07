@@ -4,7 +4,7 @@
 //Other libraries headers
 #include "game_engine/Application.h"
 #include "utils/ErrorCode.h"
-#include "utils/Log.h"
+#include "utils/log/Log.h"
 
 //Own components headers
 #include "dev_battle_gui/config/GuiConfigGenerator.h"
