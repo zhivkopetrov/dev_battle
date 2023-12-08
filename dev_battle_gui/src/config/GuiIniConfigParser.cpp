@@ -130,7 +130,7 @@ ErrorCode populateEngineSection(
   outCfg.inputEventHandlerPolicy = toEnum<InputEventHandlerPolicy>(intParam);
 
   success = IniFileUtils::getKeyValueInt(
-    section, RENDERER_EXECUTION_POLICY_NAME, intParam);
+    section, ENGINE_ACTION_EVENT_HANDLER_POLICY_NAME, intParam);
   if (!success) return ErrorCode::FAILURE;
   outCfg.actionEventHandlerPolicy = toEnum<ActionEventHandlerPolicy>(intParam);
 

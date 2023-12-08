@@ -6,6 +6,12 @@ project(dev_battle_gui)
 
 set(_RESOURCE_FOLDER_NAME resources)
 
+# Install the configuration file for both ASSET and NON_ASSET builds
+install(
+    FILES config.ini
+    DESTINATION ${PROJECT_NAME}
+)
+
 if(ASSET_BUILD)
     # Install resources and auto-generated headers and resource bin files
     install(
@@ -13,6 +19,7 @@ if(ASSET_BUILD)
         DESTINATION ${PROJECT_NAME}/${_RESOURCE_FOLDER_NAME}
     )
 
+    # utilize an early return in order not to build the rest of the project
     return()
 endif()
 
@@ -81,20 +88,4 @@ target_compile_definitions(
     ${PROJECT_NAME} 
         PRIVATE 
             PROJECT_INSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}"
-)
-
-#generate symbolic link for resourceBuilder after build is ready
-#also add the -f (--force) command in order to
-#override the existing symbolic link (if any)
-#add_custom_command(
-#    TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND
-#    ln -sf ${PROJECT_NAME}/${PROJECT_NAME} guiSymLink)
-           
-#move symbolic link to project build directory
-#add_custom_command(
-#    TARGET ${PROJECT_NAME} POST_BUILD
-#    COMMAND
-#    mv guiSymLink ${CMAKE_SOURCE_DIR}/build/gui)
-    
-    
+)    

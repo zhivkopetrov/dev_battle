@@ -35,12 +35,39 @@ constexpr auto GAME_FIELD_HEIGHT =
     (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
 
 EngineConfig generateEngineConfig(
-  const std::string binaryInstallPrefix, [[maybe_unused]]const GuiIniConfig& guiCfg) {
+  const std::string binaryInstallPrefix, const GuiIniConfig& guiCfg) {
   auto cfg = getDefaultEngineConfig(
     binaryInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
-
-  cfg.managerHandlerCfg.drawMgrCfg.monitorWindowConfig.name = PROJECT_NAME;
   cfg.debugConsoleConfig.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
+
+  // Monitor/Screen config
+  DrawMgrConfig& drawMgrCfg = cfg.managerHandlerCfg.drawMgrCfg;
+  MonitorWindowConfig& monitorCfg = drawMgrCfg.monitorWindowConfig;
+  const GuiIniConfig::Window& parsedWindowCfg = guiCfg.windowCfg;
+  monitorCfg.name = parsedWindowCfg.name;
+  monitorCfg.displayMode = parsedWindowCfg.windowDisplayMode;
+  monitorCfg.borderMode = parsedWindowCfg.windowBorderMode;
+  monitorCfg.pos = Point(parsedWindowCfg.windowRect.x, parsedWindowCfg.windowRect.y);
+  monitorCfg.width = parsedWindowCfg.windowRect.w;
+  monitorCfg.height = parsedWindowCfg.windowRect.h;
+
+  // Renderer config
+  RendererConfig& rendererCfg = drawMgrCfg.rendererConfig;
+  const GuiIniConfig::Renderer& parsedRendererCfg = guiCfg.rendererCfg;
+  rendererCfg.flagsMask = parsedRendererCfg.flagsMask;
+  rendererCfg.executionPolicy = parsedRendererCfg.executinPolicy;
+  rendererCfg.scaleQuality = parsedRendererCfg.scaleQuality;
+
+  // Resource loading threads are strictly not directly tied to the renderer.
+  // For simplicity - hide that detail from the end user.
+  cfg.managerHandlerCfg.sdlContainersCfg.maxResourceLoadingThreads =
+    parsedRendererCfg.resourceLoadingThreadsNum;
+
+  // Engine config
+  const GuiIniConfig::Engine& parsedEngineCfg = guiCfg.engineCfg;
+  cfg.maxFrameRate = parsedEngineCfg.targetFps;
+  cfg.inputEventHandlerPolicy = parsedEngineCfg.inputEventHandlerPolicy;
+  cfg.actionEventHandlerPolicy = parsedEngineCfg.actionEventHandlerPolicy;
 
   return cfg;
 }
