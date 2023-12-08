@@ -23,7 +23,12 @@ int32_t main(int32_t argc, char **args) {
   auto game = std::make_unique<DevBattleGui>();
   app.obtain(std::move(game));
 
-  const auto cfg = GuiConfigGenerator::generateConfig();
+  const auto [cfg, err] = GuiConfigGenerator::generateConfig();
+  if (ErrorCode::SUCCESS != err) {
+    LOGERR("GuiConfigGenerator::generateConfig() failed");
+    return EXIT_FAILURE;
+  }
+
   if (ErrorCode::SUCCESS != app.init(cfg)) {
     LOGERR("app.init() failed");
     return EXIT_FAILURE;

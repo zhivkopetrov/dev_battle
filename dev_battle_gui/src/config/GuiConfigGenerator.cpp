@@ -9,12 +9,15 @@
 
 //Own components headers
 #include "generated/DevBattleGuiResources.h"
+#include "dev_battle_gui/config/GuiIniConfigParser.h"
+#include "utils/log/Log.h"
 
 namespace {
-//TODO parse the params from config
-constexpr auto PROJECT_FOLDER_NAME = "dev_battle_gui";
+constexpr auto PROJECT_NAME = "dev_battle_gui";
 constexpr auto LOADING_SCREEN_RESOURCES_PATH = "p/loading_screen/";
+constexpr auto CONFIG_FILE_NAME = "config.ini";
 
+//TODO parse the params from config
 //game field tiles
 constexpr auto TILE_WIDTH = 78;
 constexpr auto TILE_HEIGHT = 64;
@@ -31,15 +34,12 @@ constexpr auto GAME_FIELD_WIDTH =
 constexpr auto GAME_FIELD_HEIGHT =
     (GAME_FIELD_ROWS * TILE_HEIGHT) + (TILE_HEIGHT / 2);
 
-EngineConfig generateEngineConfig() {
-  // defined in dev_battle_gui CMakeLists.txt
-  const std::string projectInstallPrefix = PROJECT_INSTALL_PREFIX;
-  const auto devBattleGuiInstallPrefix =
-      projectInstallPrefix + "/" + PROJECT_FOLDER_NAME;
-
+EngineConfig generateEngineConfig(
+  const std::string binaryInstallPrefix, [[maybe_unused]]const GuiIniConfig& guiCfg) {
   auto cfg = getDefaultEngineConfig(
-    devBattleGuiInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
+    binaryInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
 
+  cfg.managerHandlerCfg.drawMgrCfg.monitorWindowConfig.name = PROJECT_NAME;
   cfg.debugConsoleConfig.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
@@ -63,7 +63,7 @@ GuiConfig generateGameConfig() {
   return cfg;
 }
 
-}//end anonymous namespace
+} // end anonymous namespace
 
 std::vector<DependencyDescription> GuiConfigGenerator::generateDependencies(
     int32_t argc, char **args) {
@@ -73,9 +73,21 @@ std::vector<DependencyDescription> GuiConfigGenerator::generateDependencies(
   return dependecies;
 }
 
-ApplicationConfig GuiConfigGenerator::generateConfig() {
+std::pair<ApplicationConfig, ErrorCode> GuiConfigGenerator::generateConfig() {
+  // defined in dev_battle_gui CMakeLists.txt
+  const std::string projectInstallPrefix = PROJECT_INSTALL_PREFIX;
+  const std::string binaryInstallPrefix =
+      projectInstallPrefix + "/" + PROJECT_NAME;
+  const std::string iniCfgPath = binaryInstallPrefix + "/" + CONFIG_FILE_NAME;
+
+  GuiIniConfig iniCfg;
+  if (ErrorCode::SUCCESS != parseConfig(iniCfgPath, iniCfg)) {
+    LOGERR("parseConfig() failed");
+    return {{}, ErrorCode::FAILURE};
+  }
+
   ApplicationConfig cfg;
-  cfg.engineCfg = generateEngineConfig();
+  cfg.engineCfg = generateEngineConfig(binaryInstallPrefix, iniCfg);
   cfg.gameCfg = generateGameConfig();
-  return cfg;
+  return {cfg, ErrorCode::SUCCESS};
 }
