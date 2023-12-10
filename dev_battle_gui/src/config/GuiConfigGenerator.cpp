@@ -38,8 +38,7 @@ EngineConfig generateEngineConfig(
   const std::string binaryInstallPrefix, const GuiIniConfig& guiCfg) {
   auto cfg = getDefaultEngineConfig(
     binaryInstallPrefix, LOADING_SCREEN_RESOURCES_PATH);
-  cfg.debugConsoleConfig.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
-
+  
   // Monitor/Screen config
   DrawMgrConfig& drawMgrCfg = cfg.managerHandlerCfg.drawMgrCfg;
   MonitorWindowConfig& monitorCfg = drawMgrCfg.monitorWindowConfig;
@@ -68,6 +67,11 @@ EngineConfig generateEngineConfig(
   cfg.maxFrameRate = parsedEngineCfg.targetFps;
   cfg.inputEventHandlerPolicy = parsedEngineCfg.inputEventHandlerPolicy;
   cfg.actionEventHandlerPolicy = parsedEngineCfg.actionEventHandlerPolicy;
+  
+  // Debug console
+  DebugConsoleConfig& debugConsoleCfg = cfg.debugConsoleConfig;
+  debugConsoleCfg.maxFrameRate = parsedEngineCfg.targetFps;
+  debugConsoleCfg.fontRsrcId = DevBattleGuiResources::VINQUE_RG;
 
   return cfg;
 }

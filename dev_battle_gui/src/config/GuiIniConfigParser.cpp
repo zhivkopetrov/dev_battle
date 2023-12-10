@@ -165,5 +165,8 @@ ErrorCode parseConfig(std::string_view filePath, GuiIniConfig& outCfg) {
     return ErrorCode::FAILURE;
   }
 
+  //TODO1: add validate step for all params
+  //TODO2: add print method for all used params
+
   return ErrorCode::SUCCESS;
 }
